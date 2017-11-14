@@ -49,7 +49,7 @@ if(NOT GIT_SHA1)
 endif()
 
 # Meta information about the project
-set(META_PROJECT_NAME        "Node Embed")
+set(META_PROJECT_NAME        "Node-Embed")
 set(META_PROJECT_DESCRIPTION "Demo application to demonstrate embedding Node.js as a shared library")
 set(META_AUTHOR_ORGANIZATION "HPI CGS")
 set(META_AUTHOR_DOMAIN       "")

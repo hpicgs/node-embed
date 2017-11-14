@@ -7,7 +7,7 @@
 cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
 
 # Meta information about the project
-set(META_PROJECT_NAME "Node Embed")
+set(META_PROJECT_NAME "Node-Embed")
 
 # Declare project
 project("${META_PROJECT_NAME}-tests" C CXX)
