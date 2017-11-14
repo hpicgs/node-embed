@@ -14,6 +14,10 @@ configure_file(version.h.in ${CMAKE_CURRENT_BINARY_DIR}/include/${META_PROJECT_N
 # Libraries
 set(IDE_FOLDER "")
 
+# Applications
+set(IDE_FOLDER "Applications")
+add_subdirectory(demo-app)
+
 # Examples
 set(IDE_FOLDER "Examples")
 
