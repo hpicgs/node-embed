@@ -22,6 +22,8 @@ release_build
 cmake/*
 *CMakeFiles*
 *Debug*
+*CMakeCache.txt
+*.cmake
 
 # Qt cache
 CMakeLists.txt.user
@@ -31,6 +33,8 @@ CMakeLists.txt.user.*
 *.sublime-project
 *.sublime-workspace
 .vs/*
+*.vcxproj*
+*.sln
 
 # Local config windows
 _configure.bat
