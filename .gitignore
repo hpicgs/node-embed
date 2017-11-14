@@ -25,6 +25,9 @@ cmake/*
 *CMakeCache.txt
 *.cmake
 
+Makefile
+node-embed.app
+
 # Qt cache
 CMakeLists.txt.user
 CMakeLists.txt.user.*
