@@ -22,6 +22,7 @@ release_build
 cmake/*
 *CMakeFiles*
 *Debug*
+*Release*
 *CMakeCache.txt
 *.cmake
 
