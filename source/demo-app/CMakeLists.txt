@@ -5,7 +5,7 @@
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
-find_package(Qt5 COMPONENTS Core Quick REQUIRED)
+find_package(Qt5 COMPONENTS Core Quick Concurrent REQUIRED)
 
 
 #
@@ -67,6 +67,7 @@ target_include_directories(${target}
     PRIVATE
     ${DEFAULT_INCLUDE_DIRECTORIES}
     ${PROJECT_BINARY_DIR}/source/include
+    ${PROJECT_BINARY_DIR}/externals/node-v9.0.0/include/node
 )
 
 
@@ -74,11 +75,20 @@ target_include_directories(${target}
 # Libraries
 #
 
+add_library( nodejs-lib SHARED IMPORTED)
+
+set_target_properties( nodejs-lib
+                      PROPERTIES IMPORTED_LOCATION
+                      ${PROJECT_BINARY_DIR}/externals/libnode.so.59 )
+
 target_link_libraries(${target}
     PRIVATE
     ${DEFAULT_LIBRARIES}
+    Qt5::Core
+    Qt5::Quick
+    Qt5::Concurrent
+    nodejs-lib
 )
-
 
 #
 # Compile definitions
@@ -107,8 +117,6 @@ target_compile_options(${target}
 target_link_libraries(${target}
     PRIVATE
     ${DEFAULT_LINKER_OPTIONS}
-    Qt5::Core
-    Qt5::Quick
 )
 
 

@@ -51,3 +51,12 @@ _start-cmd.bat
 
 # Wiki
 wiki
+
+# other
+VERSION
+compile_commands.json
+externals/*
+node-embed
+node_modules/
+source/demo-app/node-embed_autogen/
+source/include/
