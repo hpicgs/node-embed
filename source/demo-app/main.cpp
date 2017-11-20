@@ -10,34 +10,36 @@
 
 #include "RssFeed.h"
 
-// Logging function for objects
-void cppLog(const v8::FunctionCallbackInfo<v8::Value>& args)
-{
-  v8::Isolate* isolate = args.GetIsolate();
+v8::FunctionCallbackInfo<v8::Value>* nodeExitInfo = nullptr;
+bool guiClosed = false;
 
-  if(args.Length() < 1 || !args[0]->IsObject()) {
-    isolate->ThrowException(v8::Exception::TypeError(
-    v8::String::NewFromUtf8(isolate, "Error: One object expected")));
-    return;
-  }
+void shouldExit(const v8::FunctionCallbackInfo<v8::Value>& args) {
+    args.GetReturnValue().Set(guiClosed);
+}
 
-  v8::Local<v8::Context> context = isolate->GetCurrentContext();
-  v8::Local<v8::Object> obj = args[0]->ToObject(context).ToLocalChecked();
-  v8::Local<v8::Array> props = obj->GetOwnPropertyNames(context).ToLocalChecked();
-
-  for(int i = 0, l = props->Length(); i < l; i++) {
-    v8::Local<v8::Value> localKey = props->Get(i);
-    v8::Local<v8::Value> localVal = obj->Get(context, localKey).ToLocalChecked();
-    std::string key = *v8::String::Utf8Value(localKey);
-    std::string val = *v8::String::Utf8Value(localVal);
-    std::cout << key << ":" << val << std::endl;
-  }
+void nodeRunExitFunc(){
+    if (nodeExitInfo == nullptr) {
+        return;
+    }
+    v8::Isolate* isolate = nodeExitInfo->GetIsolate();
+    v8::Local<v8::Function> cb = v8::Local<v8::Function>::Cast((*nodeExitInfo)[0]);
+    //const unsigned argc = 1;
+    v8::Local<v8::Value> argv[0] = {};
+    //cb->Call(v8::Null(isolate), 0, argv);
+    cb->Call(v8::Null(isolate), 0, argv);
+}
+void registerExitFunc(const v8::FunctionCallbackInfo<v8::Value>& args) {
+    nodeExitInfo = new v8::FunctionCallbackInfo<v8::Value>(args);
+    //nodeRunExitFunc();
 }
 
 void onRegisterModule(v8::Local<v8::Object> exports, v8::Local<v8::Value>, v8::Local<v8::Context>, void * data)
 {
-    std::cout << "onRegisterModule() for CppDemoModule was called"  << std::endl;
-    NODE_SET_METHOD(exports, "cppLog", cppLog);
+    NODE_SET_METHOD(exports, "cppLog", RssFeed::cppLog);
+    NODE_SET_METHOD(exports, "registerExitFunc", registerExitFunc);
+    NODE_SET_METHOD(exports, "shouldExit", shouldExit);
+    NODE_SET_METHOD(exports, "clearFeed", RssFeed::clearFeed);
+    NODE_SET_METHOD(exports, "redrawGUI", RssFeed::redrawGUI);
 }
 
 
@@ -48,10 +50,9 @@ int main(int argc, char* argv[])
 
     QQmlApplicationEngine engine;
 
-    RssFeed rssFeed;
     // to be able to access the public slots of the RssFeed instance
     // we inject a pointer to it in the QML context:
-    engine.rootContext()->setContextProperty("rssFeed", &rssFeed);
+    engine.rootContext()->setContextProperty("rssFeed", &RssFeed::getInstance());
 
     engine.load(QUrl(QLatin1String("qrc:/main.qml")));
     if (engine.rootObjects().isEmpty()) {
@@ -60,7 +61,7 @@ int main(int argc, char* argv[])
     }
 
     // Create node module
-    static node::node_module _module =
+    static node::node_module _rssModule =
     {
         NODE_MODULE_VERSION,
         NM_F_BUILTIN,
@@ -74,10 +75,11 @@ int main(int argc, char* argv[])
     };
 
     // Register module
-    node_module_register(&_module);
+    node_module_register(&_rssModule);
 
-    std::cout << "Hello World from embedding C++!" << std::endl;
-    QtConcurrent::run([argc, argv](){ node::Start(argc, argv); });
+    QtConcurrent::run([argc, argv](){ node::Start(argc, argv);});
 
-    return app.exec();
+    app.exec();
+    //nodeRunExitFunc();
+    guiClosed = true;
 }

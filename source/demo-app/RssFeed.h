@@ -2,6 +2,7 @@
 #define RSSFEED_H
 
 #include <QObject>
+#include "node.h"
 
 /**
  * @brief The RssFeed class retrieves an RSS feed from the Internet and provides its entries.
@@ -14,6 +15,14 @@ class RssFeed : public QObject {
 
 public:
     explicit RssFeed(QObject* parent=nullptr);
+    static void clearFeed(const v8::FunctionCallbackInfo<v8::Value>& args);
+    static void cppLog(const v8::FunctionCallbackInfo<v8::Value>& args);
+    static RssFeed& getInstance();
+    static void redrawGUI(const v8::FunctionCallbackInfo<v8::Value>& args);
+
+private:
+    static RssFeed* instance;
+    QStringList entries;
 
 signals:
     void entriesChanged();
