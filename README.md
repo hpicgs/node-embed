@@ -15,6 +15,7 @@ Make sure you have Qt installed for the Visual Studio compiler.
 
 * download the Node.js headers:
 ```
+mkdir externals
 cd externals
 wget http://nodejs.org/dist/v9.0.0/node-v9.0.0-headers.tar.gz
 tar -xzvf node-v9.0.0-headers.tar.gz
