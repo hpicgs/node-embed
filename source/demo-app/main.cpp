@@ -5,6 +5,7 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include <QtConcurrent>
+#include <QTimer>
 
 #include "node.h"
 
@@ -33,6 +34,10 @@ void registerExitFunc(const v8::FunctionCallbackInfo<v8::Value>& args) {
     //nodeRunExitFunc();
 }
 
+void processQtEvents(const v8::FunctionCallbackInfo<v8::Value>&) {
+    QCoreApplication::processEvents();
+}
+
 void onRegisterModule(v8::Local<v8::Object> exports, v8::Local<v8::Value>, v8::Local<v8::Context>, void * data)
 {
     NODE_SET_METHOD(exports, "cppLog", RssFeed::cppLog);
@@ -40,6 +45,7 @@ void onRegisterModule(v8::Local<v8::Object> exports, v8::Local<v8::Value>, v8::L
     NODE_SET_METHOD(exports, "shouldExit", shouldExit);
     NODE_SET_METHOD(exports, "clearFeed", RssFeed::clearFeed);
     NODE_SET_METHOD(exports, "redrawGUI", RssFeed::redrawGUI);
+    NODE_SET_METHOD(exports, "processQtEvents", processQtEvents);
 }
 
 
@@ -77,7 +83,7 @@ int main(int argc, char* argv[])
     // Register module
     node_module_register(&_rssModule);
 
-    QtConcurrent::run([argc, argv](){ node::Start(argc, argv);});
+    QTimer::singleShot(0, [argc, argv](){ node::Start(argc, argv); });
 
     app.exec();
     //nodeRunExitFunc();

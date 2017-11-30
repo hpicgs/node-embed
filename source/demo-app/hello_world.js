@@ -56,3 +56,13 @@ var emitRequest = function () {
 }
 
 emitRequest();
+
+function processQtEvents() {
+    if (cppDemoModule.shouldExit()) {
+      return;
+    }
+    cppDemoModule.processQtEvents()
+    setTimeout(processQtEvents, 20);
+}
+
+processQtEvents();
