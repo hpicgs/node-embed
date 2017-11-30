@@ -83,9 +83,6 @@ int main(int argc, char* argv[])
     // Register module
     node_module_register(&_rssModule);
 
-    QTimer::singleShot(0, [argc, argv](){ node::Start(argc, argv); });
-
-    app.exec();
-    //nodeRunExitFunc();
-    guiClosed = true;
+    QObject::connect(&engine, &QQmlEngine::quit, [](){ guiClosed = true; });
+    node::Start(argc, argv);
 }

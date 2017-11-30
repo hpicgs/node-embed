@@ -13,6 +13,7 @@ var emitRequest = function () {
   if (cppDemoModule.shouldExit()) {
     return;
   }
+  console.log("Refreshing feeds...")
   var feedparser = new FeedParser([]);  
   var req = request('http://feeds.bbci.co.uk/news/world/rss.xml')
 
