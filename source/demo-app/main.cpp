@@ -14,39 +14,33 @@
 
 #include "RssFeed.h"
 
-struct Work {
-  uv_work_t  request;
+struct AsyncData {
+  uv_async_t request;
   v8::Persistent<v8::Function> callback;
 };
 
-bool guiClosed = false;
+AsyncData* jsExitData = nullptr;
 
-void workAsync(uv_work_t* /*req*/) {
-    while (!guiClosed) {
-        std::this_thread::sleep_for(std::chrono::milliseconds(20));
-    }
-}
-
-void workAsyncComplete(uv_work_t* req, int /*status*/) {
-    Work* work = static_cast<Work*>(req->data);
+void execAsyncCall(uv_async_t* req) {
+    AsyncData* data = static_cast<AsyncData*>(req->data);
     v8::Isolate* isolate = v8::Isolate::GetCurrent();
     v8::HandleScope scope(isolate);
     v8::Handle<v8::Value> argv[] = { v8::Array::New(isolate) };
-    v8::Local<v8::Function>::New(isolate, work->callback)->
+    v8::Local<v8::Function>::New(isolate, data->callback)->
           Call(isolate->GetCurrentContext()->Global(), 1, argv);
-    work->callback.Reset();
-    delete work;
+    data->callback.Reset();
+    delete data;
 }
 
 void registerExitFunc(const v8::FunctionCallbackInfo<v8::Value>& args) {
     v8::Isolate* isolate = args.GetIsolate();
     v8::Local<v8::Function> callback = v8::Local<v8::Function>::Cast(args[0]);
 
-    Work* work = new Work();
-    work->request.data = work;
-    work->callback.Reset(isolate, callback);
+    jsExitData = new AsyncData();
+    jsExitData->request.data = jsExitData;
+    jsExitData->callback.Reset(isolate, callback);
 
-    uv_queue_work(uv_default_loop(), &work->request, workAsync, workAsyncComplete);
+    uv_async_init(uv_default_loop(), &jsExitData->request, execAsyncCall);
 }
 
 void processQtEvents(const v8::FunctionCallbackInfo<v8::Value>&) {
@@ -95,6 +89,6 @@ int main(int argc, char* argv[]) {
     // Register module
     node_module_register(&_rssModule);
 
-    QObject::connect(&engine, &QQmlEngine::quit, [](){ guiClosed = true; });
+    QObject::connect(&engine, &QQmlEngine::quit, [](){ uv_async_send(&jsExitData->request); });
     node::Start(argc, argv);
 }
