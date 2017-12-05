@@ -4,15 +4,12 @@ var FeedParser = require('feedparser');
 var request = require('request'); // for fetching the feed
 
 var killMe = function () {
-  process.exit();
+    process.exit();
 }
 
 cppDemoModule.registerExitFunc(killMe);
 
 var emitRequest = function () {
-  if (cppDemoModule.shouldExit()) {
-    return;
-  }
   console.log("Refreshing feeds...")
   var feedparser = new FeedParser([]);  
   var req = request('http://feeds.bbci.co.uk/news/world/rss.xml')
@@ -59,9 +56,6 @@ var emitRequest = function () {
 emitRequest();
 
 function processQtEvents() {
-    if (cppDemoModule.shouldExit()) {
-      return;
-    }
     cppDemoModule.processQtEvents()
     setTimeout(processQtEvents, 20);
 }

@@ -1,4 +1,6 @@
 #include <iostream>
+#include <thread>
+#include <chrono>
 
 #include <QDebug>
 #include <QGuiApplication>
@@ -8,49 +10,59 @@
 #include <QTimer>
 
 #include "node.h"
+#include "uv.h"
 
 #include "RssFeed.h"
 
-v8::FunctionCallbackInfo<v8::Value>* nodeExitInfo = nullptr;
+struct Work {
+  uv_work_t  request;
+  v8::Persistent<v8::Function> callback;
+};
+
 bool guiClosed = false;
 
-void shouldExit(const v8::FunctionCallbackInfo<v8::Value>& args) {
-    args.GetReturnValue().Set(guiClosed);
+void workAsync(uv_work_t* /*req*/) {
+    while (!guiClosed) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(20));
+    }
 }
 
-void nodeRunExitFunc(){
-    if (nodeExitInfo == nullptr) {
-        return;
-    }
-    v8::Isolate* isolate = nodeExitInfo->GetIsolate();
-    v8::Local<v8::Function> cb = v8::Local<v8::Function>::Cast((*nodeExitInfo)[0]);
-    //const unsigned argc = 1;
-    v8::Local<v8::Value> argv[0] = {};
-    //cb->Call(v8::Null(isolate), 0, argv);
-    cb->Call(v8::Null(isolate), 0, argv);
+void workAsyncComplete(uv_work_t* req, int /*status*/) {
+    Work* work = static_cast<Work*>(req->data);
+    v8::Isolate* isolate = v8::Isolate::GetCurrent();
+    v8::HandleScope scope(isolate);
+    v8::Handle<v8::Value> argv[] = { v8::Array::New(isolate) };
+    v8::Local<v8::Function>::New(isolate, work->callback)->
+          Call(isolate->GetCurrentContext()->Global(), 1, argv);
+    work->callback.Reset();
+    delete work;
 }
+
 void registerExitFunc(const v8::FunctionCallbackInfo<v8::Value>& args) {
-    nodeExitInfo = new v8::FunctionCallbackInfo<v8::Value>(args);
-    //nodeRunExitFunc();
+    v8::Isolate* isolate = args.GetIsolate();
+    v8::Local<v8::Function> callback = v8::Local<v8::Function>::Cast(args[0]);
+
+    Work* work = new Work();
+    work->request.data = work;
+    work->callback.Reset(isolate, callback);
+
+    uv_queue_work(uv_default_loop(), &work->request, workAsync, workAsyncComplete);
 }
 
 void processQtEvents(const v8::FunctionCallbackInfo<v8::Value>&) {
     QCoreApplication::processEvents();
 }
 
-void onRegisterModule(v8::Local<v8::Object> exports, v8::Local<v8::Value>, v8::Local<v8::Context>, void * data)
-{
+void onRegisterModule(v8::Local<v8::Object> exports, v8::Local<v8::Value>, v8::Local<v8::Context>, void * /*data*/) {
     NODE_SET_METHOD(exports, "cppLog", RssFeed::cppLog);
     NODE_SET_METHOD(exports, "registerExitFunc", registerExitFunc);
-    NODE_SET_METHOD(exports, "shouldExit", shouldExit);
     NODE_SET_METHOD(exports, "clearFeed", RssFeed::clearFeed);
     NODE_SET_METHOD(exports, "redrawGUI", RssFeed::redrawGUI);
     NODE_SET_METHOD(exports, "processQtEvents", processQtEvents);
 }
 
 
-int main(int argc, char* argv[])
-{
+int main(int argc, char* argv[]) {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QGuiApplication app(argc, argv);
 
