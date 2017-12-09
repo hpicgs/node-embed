@@ -2,7 +2,7 @@ version: '{build}'
 branches:
   only:
   - master
-clone_folder: c:\projects\cmake-init
+clone_folder: c:\projects\node-embed
 image:
 - Visual Studio 2013
 - Visual Studio 2015
@@ -33,20 +33,20 @@ init:
 before_build:
 - cmd: >-
     mkdir build
-    
+
     cd build
-    
+
     cmake --version
 
-    cmake .. -G %generator%
-    
+    cmake .. -G %generator% -DCMAKE_PREFIX_PATH='C:\Qt\5.9.2\msvc2017_64\lib\cmake'
+
 build:
-  project: c:\projects\cmake-init\build\template.sln
+  project: c:\projects\node-embed\build\Node-Embed.sln
   verbosity: minimal
-  parallel: true 
+  parallel: true
 only_commits:
   files:
     - CMakeLists.txt
     - appveyor.yml
-    - sources/
+    - source/
     - cmake/
