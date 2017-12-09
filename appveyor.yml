@@ -1,12 +1,12 @@
 version: '{build}'
-branches:
-  only:
-  - master
+#branches:
+#  only:
+#  - master
 clone_folder: c:\projects\node-embed
 image:
-- Visual Studio 2013
-- Visual Studio 2015
 - Visual Studio 2017
+- Visual Studio 2015
+- Visual Studio 2013
 configuration:
 - Release
 - Debug
@@ -19,6 +19,9 @@ environment:
 matrix:
   fast_finish: true
 
+cache:
+  - c:\projects\node-embed\externals
+
 # skip unsupported combinations
 init:
 - set arch=
@@ -30,15 +33,31 @@ init:
 - if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2013" ( set generator="Visual Studio 12 2013%arch%" )
 - echo %generator%
 
+- if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2017" ( set qt_cmake="C:\Qt\5.9.2\msvc2017_64\lib\cmake" )
+- if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2015" ( set qt_cmake="C:\Qt\5.9.2\msvc2015_64\lib\cmake" )
+- if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2013" ( set qt_cmake="C:\Qt\5.8\msvc2013_64\lib\cmake" )
+- echo %qt_cmake%
+- set APPVEYOR_SAVE_CACHE_ON_ERROR="true" #TODO: Remove
+
 before_build:
-- cmd: >-
+- cmd: |-
+    mkdir externals
+    cd externals
+    appveyor DownloadFile http://nodejs.org/dist/v9.0.0/node-v9.0.0-headers.tar.gz
+    7z e node-v9.0.0-headers.tar.gz
+    7z x node-v9.0.0-headers.tar
+
+    appveyor DownloadFile http://nodejs.org/dist/v9.0.0/node-v9.0.0.tar.gz
+    7z e node-v9.0.0.tar.gz
+    7z x node-v9.0.0.tar
+    cd node-v9.0.0
+    IF NOT EXIST "Release/node.dll" ( vcbuild.bat dll )
+    cd ../..
+
     mkdir build
-
     cd build
-
     cmake --version
-
-    cmake .. -G %generator% -DCMAKE_PREFIX_PATH='C:\Qt\5.9.2\msvc2017_64\lib\cmake'
+    cmake .. -G %generator% -DCMAKE_PREFIX_PATH=%qt_cmake%
 
 build:
   project: c:\projects\node-embed\build\Node-Embed.sln
