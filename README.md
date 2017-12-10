@@ -31,11 +31,14 @@ cd ../..
 
 #### Windows
 
-Make sure you have Qt installed for the Visual Studio compiler.
+Make sure you have Qt 5.6 or later installed as well as the matching Visual Studio build tools.
+Adjust the generator and path to Qt cmake accordingly:
 
 ```
-cmake -G "Visual Studio 15 2017 Win64" -DCMAKE_PREFIX_PATH='C:\Qt\Qt5.9.3\5.9.3\msvc2017_64\lib\cmake' .
-cmake --build .
+mkdir build
+cd build
+cmake .. -G "Visual Studio 15 2017 Win64" -DCMAKE_PREFIX_PATH='C:\Qt\Qt5.9.3\5.9.3\msvc2017_64\lib\cmake'
+cmake --build ..
 ```
 
 #### Linux

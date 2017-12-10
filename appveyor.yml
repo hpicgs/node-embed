@@ -19,9 +19,6 @@ environment:
 matrix:
   fast_finish: true
 
-cache:
-  - c:\projects\node-embed\externals
-
 # skip unsupported combinations
 init:
 - set arch=
@@ -37,7 +34,6 @@ init:
 - if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2015" ( set qt_cmake="C:\Qt\5.9.2\msvc2015_64\lib\cmake" )
 - if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2013" ( set qt_cmake="C:\Qt\5.8\msvc2013_64\lib\cmake" )
 - echo %qt_cmake%
-- set APPVEYOR_SAVE_CACHE_ON_ERROR="true" #TODO: Remove
 
 before_build:
 - cmd: |-
@@ -50,9 +46,13 @@ before_build:
     appveyor DownloadFile http://nodejs.org/dist/v9.0.0/node-v9.0.0.tar.gz
     7z e node-v9.0.0.tar.gz
     7z x node-v9.0.0.tar
+
     cd node-v9.0.0
-    IF NOT EXIST "Release/node.dll" ( vcbuild.bat dll )
-    cd ../..
+    appveyor DownloadFile https://owncloud.hpi.de/index.php/s/N6JqyFxbRJO2xtK/download -FileName node-windows.7z
+    7z x node-windows.7z -aoa -y
+    cd ..
+
+    cd ..
 
     mkdir build
     cd build
