@@ -31,7 +31,7 @@ cd ../..
 
 #### Windows
 
-Make sure you have Qt 5.6 or later installed as well as the matching Visual Studio build tools.
+Make sure you have Qt 5.6 or later installed as well as the matching Visual Studio 2015/2017 build tools.
 Adjust the generator and path to Qt cmake accordingly:
 
 ```

@@ -6,7 +6,6 @@ clone_folder: c:\projects\node-embed
 image:
 - Visual Studio 2017
 - Visual Studio 2015
-- Visual Studio 2013
 configuration:
 - Release
 - Debug
