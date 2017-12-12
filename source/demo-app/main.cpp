@@ -32,6 +32,8 @@ void execAsyncCall(uv_async_t* req) {
     delete data;
 }
 
+// callback for Node.js to register the exit-function. The exit-function is supposed to get called once the Qt-GUI
+// gets closed, this function should be called on startup of node.js
 void registerExitFunc(const v8::FunctionCallbackInfo<v8::Value>& args) {
     v8::Isolate* isolate = args.GetIsolate();
     v8::Local<v8::Function> callback = v8::Local<v8::Function>::Cast(args[0]);
@@ -47,6 +49,9 @@ void processQtEvents(const v8::FunctionCallbackInfo<v8::Value>&) {
     QCoreApplication::processEvents();
 }
 
+// exposes C++-functions in node.js-Module _rssModule (called CppDemoModule in node.js)
+// format is NODE_SET_METHOD(exports, "functionNameInJS", functionPointerInC++).
+// From what we understand, object member functions can not be exposed to node.js like this.
 void onRegisterModule(v8::Local<v8::Object> exports, v8::Local<v8::Value>, v8::Local<v8::Context>, void * /*data*/) {
     NODE_SET_METHOD(exports, "cppLog", RssFeed::cppLog);
     NODE_SET_METHOD(exports, "registerExitFunc", registerExitFunc);
@@ -54,7 +59,6 @@ void onRegisterModule(v8::Local<v8::Object> exports, v8::Local<v8::Value>, v8::L
     NODE_SET_METHOD(exports, "redrawGUI", RssFeed::redrawGUI);
     NODE_SET_METHOD(exports, "processQtEvents", processQtEvents);
 }
-
 
 int main(int argc, char* argv[]) {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
