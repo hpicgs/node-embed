@@ -38,7 +38,7 @@ Adjust the generator and path to Qt cmake accordingly:
 mkdir build
 cd build
 cmake .. -G "Visual Studio 15 2017 Win64" -DCMAKE_PREFIX_PATH='C:\Qt\Qt5.9.3\5.9.3\msvc2017_64\lib\cmake'
-cmake --build ..
+cmake --build .
 ```
 
 #### Linux
