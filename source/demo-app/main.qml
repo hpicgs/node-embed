@@ -7,6 +7,7 @@ ApplicationWindow {
     width: 640
     height: 480
     title: qsTr("RSS Feed Viewer using Node.js")
+    onClosing: Qt.quit()
 
     ListView {
         anchors.fill: parent
