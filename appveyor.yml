@@ -21,8 +21,8 @@ cache:
 
 # skip unsupported combinations
 init:
-# Allow RDP access
-- ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+# Print all env vars
+- set
 - set arch=
 - if "%arch%"=="Win64" ( set arch= Win64)
 - echo %arch%
@@ -73,7 +73,3 @@ only_commits:
     - appveyor.yml
     - source/
     - cmake/
-
-# Block until RDP session is finished
-on_finish:
-  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
