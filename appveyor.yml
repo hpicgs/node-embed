@@ -53,7 +53,7 @@ before_build:
     IF EXIST "C:\cache\binaries.7z" ( 7z x C:\cache\binaries.7z -aoa -y )
     vcbuild.bat dll
     IF NOT EXIST "C:\cache" ( mkdir C:\cache )
-    7z  a -mx7 -t7z 'C:\cache\binaries.7z' %Configuration%\
+    7z  a -mx7 -t7z C:\cache\binaries.7z %Configuration%\
     cd ..
 
     cd ..
