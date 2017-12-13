@@ -50,10 +50,10 @@ before_build:
     7z x node-v9.0.0.tar
 
     cd node-v9.0.0
-    IF EXIST "C:\cache\release.7z" ( 7z x C:\cache\release.7z -aoa -y )
+    IF EXIST "C:\cache\binaries.7z" ( 7z x C:\cache\binaries.7z -aoa -y )
     vcbuild.bat dll
     IF NOT EXIST "C:\cache" ( mkdir C:\cache )
-    7z  a -mx7 -t7z 'C:\cache\release.7z' 'Release\'
+    7z  a -mx7 -t7z 'C:\cache\binaries.7z' '%Configuration%\'
     cd ..
 
     cd ..
