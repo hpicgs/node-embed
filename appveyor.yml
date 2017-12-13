@@ -5,7 +5,6 @@ version: '{build}'
 clone_folder: c:\projects\node-embed
 image:
 - Visual Studio 2017
-- Visual Studio 2015
 configuration:
 - Release
 - Debug
@@ -17,6 +16,8 @@ environment:
   # - arch: #does not work, Release|x64 not a valid target
 matrix:
   fast_finish: true
+cache:
+  - C:\cache
 
 # skip unsupported combinations
 init:
@@ -47,8 +48,9 @@ before_build:
     7z x node-v9.0.0.tar
 
     cd node-v9.0.0
-    appveyor DownloadFile https://owncloud.hpi.de/index.php/s/N6JqyFxbRJO2xtK/download -FileName node-windows.7z
-    7z x node-windows.7z -aoa -y
+    IF EXIST "C:\cache\release.7z" ( 7z x C:\cache\release.7z -aoa -y )
+    vcbuild.bat dll
+    7z  a -mx7 -t7z 'C:\cache\release.7z' 'Release\'
     cd ..
 
     cd ..
