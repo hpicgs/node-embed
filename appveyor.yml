@@ -52,6 +52,7 @@ before_build:
     cd node-v9.0.0
     IF EXIST "C:\cache\release.7z" ( 7z x C:\cache\release.7z -aoa -y )
     vcbuild.bat dll
+    IF NOT EXIST "C:\cache" ( mkdir C:\cache )
     7z  a -mx7 -t7z 'C:\cache\release.7z' 'Release\'
     cd ..
 
