@@ -54,7 +54,7 @@ before_build:
     IF NOT EXIST "C:\cache\binaries.7z" ( appveyor DownloadFile https://owncloud.hpi.de/index.php/s/N6JqyFxbRJO2xtK/download -FileName node-windows.7z & 7z x node-windows.7z -aoa -y )
     vcbuild.bat dll
     IF NOT EXIST "C:\cache" ( mkdir C:\cache )
-    7z  a -mx7 -t7z 'C:\cache\binaries.7z' %Configuration%\
+    7z  a -mx7 -t7z C:\cache\binaries.7z %Configuration%\
     cd ..
 
     cd ..
