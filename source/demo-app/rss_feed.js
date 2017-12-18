@@ -1,18 +1,10 @@
-var cppDemoModule = process.binding('CppDemoModule');
-
 var FeedParser = require('feedparser');
 var request = require('request'); // for fetching the feed
 
-var killMe = function () {
-    process.exit();
-}
-
-cppDemoModule.registerExitFunc(killMe);
-
-var emitRequest = function () {
+var emitRequest = function (url, addFeed, onEnd) {
   console.log("Refreshing feeds...")
   var feedparser = new FeedParser([]);  
-  var req = request('http://feeds.bbci.co.uk/news/world/rss.xml')
+  var req = request(url)
 
   req.on('error', function (error) {
     // handle any request errors
@@ -25,7 +17,6 @@ var emitRequest = function () {
       this.emit('error', new Error('Bad status code'));
     }
     else {
-      cppDemoModule.clearFeed();
       stream.pipe(feedparser);
     }
   });
@@ -44,20 +35,8 @@ var emitRequest = function () {
     while (item = stream.read()) {
         itemString = itemString + item['title'] + '\n' + item['description'];
     }
-    cppDemoModule.cppLog({itemTitle: itemString});
+    addFeed(itemString);
   });
 
-  feedparser.on('end', function (){
-    cppDemoModule.redrawGUI();
-    setTimeout(emitRequest, 3000);
-  });
+  feedparser.on('end', onEnd);
 }
-
-emitRequest();
-
-function processQtEvents() {
-    cppDemoModule.processQtEvents()
-    setTimeout(processQtEvents, 20);
-}
-
-processQtEvents();

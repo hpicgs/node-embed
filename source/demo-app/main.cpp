@@ -1,16 +1,10 @@
-#include <iostream>
-#include <thread>
-#include <chrono>
-
 #include <QDebug>
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
-#include <QtConcurrent>
 #include <QTimer>
 
 #include "node.h"
-#include "uv.h"
 
 #include "RssFeed.h"
 
@@ -22,7 +16,8 @@ int main(int argc, char* argv[]) {
 
     // to be able to access the public slots of the RssFeed instance
     // we inject a pointer to it in the QML context:
-    engine.rootContext()->setContextProperty("rssFeed", &RssFeed::getInstance());
+    RssFeed* rssFeed = new RssFeed();
+    engine.rootContext()->setContextProperty("rssFeed", rssFeed);
 
     engine.load(QUrl(QLatin1String("qrc:/main.qml")));
     if (engine.rootObjects().isEmpty()) {

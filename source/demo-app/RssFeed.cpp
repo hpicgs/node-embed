@@ -4,24 +4,23 @@
 RssFeed::RssFeed(QObject* parent)
     : QObject(parent)
 {
-    node::lib::call("getFeed", 'http://feeds.bbci.co.uk/news/world/rss.xml',
-                    [this](v8::Local<v8::Value> entry){ addEntry(entry); });
+    connect(&m_refreshTimer, &QTimer::timeout, this, &RssFeed::refreshFeed);
+
+    QTimer::singleShot(200, &RssFeed::refreshFeed);
+}
+
+void RssFeed::refreshFeed() {
+    m_entries.clear();
+    node::lib::call("emitRequest",
+                    'http://feeds.bbci.co.uk/news/world/rss.xml',
+                    [this](v8::Local<v8::Value> entry){ addEntry(entry); },
+                    [this](){ emit entriesChanged(); } );
 }
 
 void RssFeed::addEntry(v8::Local<v8::Value> entry) {
-    // TODO: convert entry to QString
-    getInstance().entries << QString::fromStdString(val);
-    emit entriesChanged();
-
-}
-
-RssFeed& RssFeed::getInstance(){
-    if (instance == nullptr){
-        instance = new RssFeed();
-    }
-    return *instance;
-}
-
-QStringList RssFeed::getEntries() const {
-    return entries;
+    v8::String::Utf8Value v8String(entry);
+    std::string stdString(*v8String);
+    m_entries << QString::fromStdString(stdString);
+    // shorter, but less informative:
+    // m_entries << QString::fromLatin1(*v8String);
 }
