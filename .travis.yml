@@ -23,12 +23,26 @@ matrix:
   - os: osx
     compiler: gcc
 
+cache:
+  directories:
+  - externals/node-v9.0.0/out
+
 before_install:
   - if [ $TRAVIS_OS_NAME == linux ]; then sudo apt-get install -qq cmake qt5-default cppcheck clang-tidy-3.8 qtquick1-qml-plugins qtdeclarative5-dev; fi
   - if [ $TRAVIS_OS_NAME == osx ]; then brew update && brew install qt5 cppcheck; fi
 
 before_script:
-  - ./configure
+  - cd externals
+  - wget https://github.com/hpicgs/node/archive/node_lib.zip
+  - unzip node_lib.zip
+  - mv node-node_lib node-v9.0.0
+  - cd node-v9.0.0
+  - ./configure --shared
+  - make -j5
+  - cd ..
+  - wget http://nodejs.org/dist/v9.0.0/node-v9.0.0-headers.tar.gz
+  - tar -xzvf node-v9.0.0-headers.tar.gz
+  - cd ..
   - if [ $CMAKE_CONFIGURATION == release ]; then ./configure; fi
   - if [ $CMAKE_CONFIGURATION == debug ]; then ./configure debug; fi
 
