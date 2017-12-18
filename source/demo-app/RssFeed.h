@@ -15,13 +15,10 @@ class RssFeed : public QObject {
 
 public:
     explicit RssFeed(QObject* parent=nullptr);
-    static void clearFeed(const v8::FunctionCallbackInfo<v8::Value>& args);
-    static void cppLog(const v8::FunctionCallbackInfo<v8::Value>& args);
-    static RssFeed& getInstance();
-    static void redrawGUI(const v8::FunctionCallbackInfo<v8::Value>& args);
+
+    void addEntry(v8::Local<v8::Value> entry);
 
 private:
-    static RssFeed* instance;
     QStringList entries;
 
 signals:
