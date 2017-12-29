@@ -95,12 +95,12 @@ int main(int argc, char* argv[]) {
 
     QObject::connect(&engine, &QQmlEngine::quit, [](){ uv_async_send(&jsExitData->request); });
 
-	std::string start_string("js\\rss_feed.js");
-	int nodeArgc = 2;
-	auto c = start_string.c_str();
-	char *nodeArgv[2];
-	nodeArgv[0] = argv[0];
-	nodeArgv[1] = const_cast<char *>(c);
+    std::string start_string("js\\rss_feed.js");
+    int nodeArgc = 2;
+    auto c = start_string.c_str();
+    char *nodeArgv[2];
+    nodeArgv[0] = argv[0];
+    nodeArgv[1] = const_cast<char *>(c);
 
     node::Start(nodeArgc, nodeArgv);
 }
