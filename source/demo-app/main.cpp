@@ -95,7 +95,7 @@ int main(int argc, char* argv[]) {
 
     QObject::connect(&engine, &QQmlEngine::quit, [](){ uv_async_send(&jsExitData->request); });
 
-	std::string start_string("..\\..\\source\\demo-app\\rss_feed.js");
+	std::string start_string("js\\rss_feed.js");
 	int nodeArgc = 2;
 	auto c = start_string.c_str();
 	char *nodeArgv[2];
