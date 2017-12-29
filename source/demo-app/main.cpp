@@ -94,5 +94,13 @@ int main(int argc, char* argv[]) {
     node_module_register(&_rssModule);
 
     QObject::connect(&engine, &QQmlEngine::quit, [](){ uv_async_send(&jsExitData->request); });
-    node::Start(argc, argv);
+
+	std::string start_string("..\\..\\source\\demo-app\\rss_feed.js");
+	int nodeArgc = 2;
+	auto c = start_string.c_str();
+	char *nodeArgv[2];
+	nodeArgv[0] = argv[0];
+	nodeArgv[1] = const_cast<char *>(c);
+
+    node::Start(nodeArgc, nodeArgv);
 }
