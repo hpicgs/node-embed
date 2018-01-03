@@ -31,7 +31,7 @@ addons:
   apt:
     sources:
       - ubuntu-toolchain-r-test
-      - beineri/opt-qt591-trusty
+      - sourceline: 'ppa:beineri/opt-qt591-trusty'
     packages:
       - g++-4.9
       - qt59-meta-full
