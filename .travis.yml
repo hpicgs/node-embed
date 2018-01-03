@@ -35,11 +35,11 @@ before_script:
   - cd externals
   - wget https://github.com/hpicgs/node/archive/node_lib.zip
   - unzip -q node_lib.zip
+  - mv node-v9.0.0/out out
   - mv node-node_lib node-v9.0.0
+  - mv out node-v9.0.0/out
   - cd node-v9.0.0
-  - ls
-  - pwd
-  - sh configure --shared
+  - ./configure --shared
   - make -j5
   - cd ..
   - wget http://nodejs.org/dist/v9.0.0/node-v9.0.0-headers.tar.gz
