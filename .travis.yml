@@ -34,14 +34,14 @@ before_install:
 before_script:
   - cd externals
   - wget https://github.com/hpicgs/node/archive/node_lib.zip
-  - unzip node_lib.zip
+  - unzip -q node_lib.zip
   - mv node-node_lib node-v9.0.0
   - cd node-v9.0.0
   - ./configure --shared
   - make -j5
   - cd ..
   - wget http://nodejs.org/dist/v9.0.0/node-v9.0.0-headers.tar.gz
-  - tar -xzvf node-v9.0.0-headers.tar.gz
+  - tar -xzf node-v9.0.0-headers.tar.gz
   - cd ..
   - if [ $CMAKE_CONFIGURATION == release ]; then ./configure; fi
   - if [ $CMAKE_CONFIGURATION == debug ]; then ./configure debug; fi
