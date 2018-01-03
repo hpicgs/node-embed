@@ -31,12 +31,16 @@ addons:
   apt:
     sources:
       - ubuntu-toolchain-r-test
+      - beineri/opt-qt591-trusty
     packages:
       - g++-4.9
+      - qt59-meta-full
+      - cmake
+      - cppcheck
+      - clang-tidy-3.8
 
 before_install:
   - if [ $TRAVIS_OS_NAME == linux ]; then CC=gcc-4.9 && CXX=g++-4.9; fi
-  - if [ $TRAVIS_OS_NAME == linux ]; then sudo apt-get install -qq cmake qt5-default cppcheck clang-tidy-3.8 qtquick1-qml-plugins qtdeclarative5-dev; fi
   - if [ $TRAVIS_OS_NAME == osx ]; then brew update && brew install qt5 cppcheck; fi
 
 before_script:
