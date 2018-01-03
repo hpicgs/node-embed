@@ -36,6 +36,7 @@ before_script:
   - wget https://github.com/hpicgs/node/archive/node_lib.zip
   - unzip -q node_lib.zip
   - mv node-v9.0.0/out out
+  - rm -rf node-v9.0.0
   - mv node-node_lib node-v9.0.0
   - mv out node-v9.0.0/out
   - cd node-v9.0.0
