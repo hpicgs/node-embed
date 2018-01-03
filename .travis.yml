@@ -27,7 +27,15 @@ cache:
   directories:
   - externals/node-v9.0.0/out
 
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - g++-4.9
+
 before_install:
+  - if [ $TRAVIS_OS_NAME == linux ]; then CC=gcc-4.9 && CXX=g++-4.9; fi
   - if [ $TRAVIS_OS_NAME == linux ]; then sudo apt-get install -qq cmake qt5-default cppcheck clang-tidy-3.8 qtquick1-qml-plugins qtdeclarative5-dev; fi
   - if [ $TRAVIS_OS_NAME == osx ]; then brew update && brew install qt5 cppcheck; fi
 
@@ -54,5 +62,5 @@ script:
   - cd $BUILD_DIR
   - cmake ..
   - cmake --build .
-  - cmake --build . --target test
+  # - cmake --build . --target test
   - cmake --build . --target check-all
