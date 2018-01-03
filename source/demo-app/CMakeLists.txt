@@ -66,8 +66,8 @@ set_target_properties(${target}
 target_include_directories(${target}
     PRIVATE
     ${DEFAULT_INCLUDE_DIRECTORIES}
-    ${PROJECT_BINARY_DIR}/source/include
-    ${PROJECT_BINARY_DIR}/externals/node-v9.0.0/include/node
+    ${PROJECT_SOURCE_DIR}/source/include
+    ${PROJECT_SOURCE_DIR}/externals/node-v9.0.0/include/node
 )
 
 
@@ -79,7 +79,7 @@ add_library( nodejs-lib SHARED IMPORTED)
 
 set_target_properties( nodejs-lib
                       PROPERTIES IMPORTED_LOCATION
-                      ${PROJECT_BINARY_DIR}/externals/libnode.so.59 )
+                      ${PROJECT_SOURCE_DIR}/externals/libnode.so.59 )
 
 target_link_libraries(${target}
     PRIVATE
