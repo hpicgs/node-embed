@@ -37,7 +37,9 @@ before_script:
   - unzip -q node_lib.zip
   - mv node-node_lib node-v9.0.0
   - cd node-v9.0.0
-  - ./configure --shared
+  - ls
+  - pwd
+  - sh configure --shared
   - make -j5
   - cd ..
   - wget http://nodejs.org/dist/v9.0.0/node-v9.0.0-headers.tar.gz
