@@ -1,5 +1,9 @@
 # node-embed
 
+## Purpose of this repository
+
+This repository aims at demonstrating the usage of the shared library API in Node.js' current implementation, as well as the new, extended implementation of said API proposed in [this Node.js fork](https://github.com/hpicgs/node). This repository is a work in progress in the "Advanced Development in C++" project seminar at Hasso Platter Institute's Chair of Computer Graphics Systems.
+
 ## Setup
 
 * download the Node.js headers:
@@ -22,7 +26,7 @@ cp out/Release/lib.target/libnode.so.59 ../libnode.so.59
 cp out/Release/lib.target/libnode.so.59 ../libnode.59.so
 cd ../..
 ```
-* install the required Node modules in the project root with: `npm install feedparser request`
+* install the required Node.js modules by running: `npm install`
 * then either just open CMakeLists.txt with QtCreator, configure it and press run
 * or start from terminal with the following commands:
 

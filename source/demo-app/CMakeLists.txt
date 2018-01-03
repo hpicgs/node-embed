@@ -6,7 +6,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
 find_package(Qt5 COMPONENTS Core Quick Concurrent REQUIRED)
-find_package(Nodejs REQUIRED)
+find_package(nodejs REQUIRED)
 
 
 #
@@ -67,7 +67,7 @@ set_target_properties(${target}
 target_include_directories(${target}
     PRIVATE
     ${DEFAULT_INCLUDE_DIRECTORIES}
-    ${PROJECT_BINARY_DIR}/source/include
+    ${PROJECT_SOURCE_DIR}/source/include
     ${NODEJS_INCLUDE_DIR}
 )
 
