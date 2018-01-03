@@ -1,0 +1,16 @@
+{
+  "name": "node-embed",
+  "dependencies": {
+    "feedparser": "^2.2.4",
+    "request": "^2.83.0"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hpicgs/node-embed.git"
+  },
+  "bugs": {
+    "url": "https://github.com/hpicgs/node-embed/issues"
+  },
+  "homepage": "https://github.com/hpicgs/node-embed#readme"
+}
