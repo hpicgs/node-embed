@@ -136,14 +136,22 @@ install(TARGETS ${target}
 )
 
 if(WIN32)
-    # Copy node.dll
-    add_custom_command(TARGET ${target} POST_BUILD # Adds a post-build event to MyTest
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different  # which executes "cmake - E copy_if_different..."
-        ${CMAKE_SOURCE_DIR}/externals/node-v9.0.0/Release/node.dll      # <--this is in-file
-        $<TARGET_FILE_DIR:${target}>)                 # <--this is out-file path
+    # Copy node.dll to the build directory
+    add_custom_command(TARGET ${target} 
+        POST_BUILD # Adds a post-build event
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different  # which executes "cmake - E copy_if_different..."
+            ${CMAKE_SOURCE_DIR}/externals/node-v9.0.0/Release/node.dll      # <--this is in-file
+            $<TARGET_FILE_DIR:${target}>)                 # <--this is out-file path
 
     # Copy Qt dependencies
     find_program(WINDEPLOYQT_EXECUTABLE NAMES windeployqt HINTS ${Qt5_DIR}/../../../ ENV QTDIR PATH_SUFFIXES bin)
-    add_custom_command(TARGET ${target} POST_BUILD
-    COMMAND ${WINDEPLOYQT_EXECUTABLE} --no-patchqt --qmldir ${CMAKE_SOURCE_DIR}/source/demo-app $<TARGET_FILE:${target}>)
+    add_custom_command(TARGET ${target} 
+        POST_BUILD
+        COMMAND ${WINDEPLOYQT_EXECUTABLE} --no-patchqt --qmldir ${CMAKE_CURRENT_SOURCE_DIR} $<TARGET_FILE:${target}>)
 endif()
+
+# Copy javascript sources to build directory
+add_custom_command(TARGET ${target} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_CURRENT_SOURCE_DIR}/js 
+        $<TARGET_FILE_DIR:${target}>/js)
