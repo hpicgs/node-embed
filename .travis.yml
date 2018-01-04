@@ -34,10 +34,12 @@ addons:
       - sourceline: 'ppa:beineri/opt-qt591-trusty'
     packages:
       - g++-4.9
-      - qt59-meta-full
       - cmake
       - cppcheck
       - clang-tidy-3.8
+      - qt59base
+      - qt59declarative
+      - qt59quickcontrols
 
 before_install:
   - if [ $TRAVIS_OS_NAME == linux ]; then CC=gcc-4.9 && CXX=g++-4.9; fi
