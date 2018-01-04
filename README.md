@@ -1,4 +1,4 @@
-# node-embed
+# node-embed [![Build Status](https://travis-ci.org/travis-ci/travis-web.svg?branch=daily-cron)](https://travis-ci.org/travis-ci/travis-web)
 
 ## Purpose of this repository
 
