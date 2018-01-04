@@ -5,7 +5,7 @@ dist: trusty
 
 os:
   - linux
-  - osx
+#  - osx
 
 compiler:
   - gcc
@@ -18,21 +18,56 @@ env:
     - CMAKE_CONFIGURATION=release BUILD_DIR=build
     - CMAKE_CONFIGURATION=debug BUILD_DIR=build-debug
 
-matrix:
-  exclude:
-  - os: osx
-    compiler: gcc
+#matrix:
+#  exclude:
+#  - os: osx
+#    compiler: gcc
+
+cache:
+  directories:
+    - externals/node-v9.0.0/out
+  timeout: 1000
+
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+      - sourceline: 'ppa:beineri/opt-qt591-trusty'
+    packages:
+      - g++-4.9
+      - cmake
+      - cppcheck
+      - clang-tidy-3.8
+      - qt59base
+      - qt59declarative
+      - qt59quickcontrols
 
 before_install:
-  - if [ $TRAVIS_OS_NAME == linux ]; then sudo apt-get install -qq cmake qt5-default cppcheck clang-tidy-3.8; fi
-  - if [ $TRAVIS_OS_NAME == osx ]; then brew update && brew install qt5 cppcheck; fi
+  - if [ $TRAVIS_OS_NAME == linux ]; then CC=gcc-4.9 && CXX=g++-4.9; fi
+#  - if [ $TRAVIS_OS_NAME == osx ]; then brew update && brew install qt5 cppcheck; fi
 
 before_script:
-  - ./configure
+  - cd externals
+  - wget https://github.com/hpicgs/node/archive/node_lib.zip
+  - unzip -q node_lib.zip
+  - mv node-v9.0.0/out out
+  - rm -rf node-v9.0.0
+  - mv node-node_lib node-v9.0.0
+  - mv out node-v9.0.0/out
+  - cd node-v9.0.0
+  - ./configure --shared
+  - make -j5
+  - cd ..
+  - wget http://nodejs.org/dist/v9.0.0/node-v9.0.0-headers.tar.gz
+  - tar -xzf node-v9.0.0-headers.tar.gz
+  - cd ..
   - if [ $CMAKE_CONFIGURATION == release ]; then ./configure; fi
   - if [ $CMAKE_CONFIGURATION == debug ]; then ./configure debug; fi
+  - mkdir $BUILD_DIR
 
 script:
-  - cmake --build $BUILD_DIR
-  - cmake --build $BUILD_DIR --target test
-  - cmake --build $BUILD_DIR --target check-all
+  - cd $BUILD_DIR
+  - cmake ..
+  - cmake --build .
+  # - cmake --build . --target test
+  - cmake --build . --target check-all
