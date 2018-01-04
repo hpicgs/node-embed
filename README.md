@@ -14,7 +14,7 @@ wget http://nodejs.org/dist/v9.0.0/node-v9.0.0-headers.tar.gz
 tar -xzvf node-v9.0.0-headers.tar.gz
 cd ..
 ```
-* either copy Node libs to externals or build it from source:
+* either copy Node lib binary to externals/node-v9.0.0/Release/ or build it from source:
 ```
 cd externals
 wget http://nodejs.org/dist/v9.0.0/node-v9.0.0.tar.gz
@@ -22,8 +22,6 @@ tar -xzvf node-v9.0.0.tar.gz
 cd node-v9.0.0
 ./configure --shared
 make -j4
-cp out/Release/lib.target/libnode.so.59 ../libnode.so.59
-cp out/Release/lib.target/libnode.so.59 ../libnode.59.so
 cd ../..
 ```
 * install the required Node.js modules by running: `npm install`
