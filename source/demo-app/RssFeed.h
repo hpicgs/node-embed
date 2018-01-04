@@ -2,6 +2,8 @@
 #define RSSFEED_H
 
 #include <QObject>
+#include <QTimer>
+
 #include "node.h"
 
 /**
@@ -15,16 +17,22 @@ class RssFeed : public QObject {
 
 public:
     explicit RssFeed(QObject* parent=nullptr);
-    static void clearFeed(const v8::FunctionCallbackInfo<v8::Value>& args);
-    static void cppLog(const v8::FunctionCallbackInfo<v8::Value>& args);
-    static RssFeed& getInstance();
-    static void redrawGUI(const v8::FunctionCallbackInfo<v8::Value>& args);
 
-private:
-    static RssFeed* instance;
-    QStringList entries;
+    /**
+     * @brief refreshFeed starts retrieving the updated feed entries using JS
+     */
+    void refreshFeed();
+
+    /**
+     * @brief addEntry adds an entry to this feed
+     * @param entry v8 string object containing the text of the entry
+     */
+    void addEntry(v8::Local<v8::Value> entry);
 
 signals:
+    /**
+     * @brief entriesChanged is emitted when entries changed
+     */
     void entriesChanged();
 
 public slots:
@@ -32,7 +40,11 @@ public slots:
      * @brief getEntries returns the entries of the RSS feed
      * @return a list of text entries
      */
-    QStringList getEntries() const;
+    QStringList getEntries() const { return m_entries; }
+
+private:
+    QStringList m_entries;
+    QTimer m_refreshTimer;
 };
 
 #endif // RSSFEED_H
