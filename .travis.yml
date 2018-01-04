@@ -25,7 +25,8 @@ env:
 
 cache:
   directories:
-  - externals/node-v9.0.0/out
+    - externals/node-v9.0.0/out
+  timeout: 1000
 
 addons:
   apt:
