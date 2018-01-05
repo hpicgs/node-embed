@@ -25,7 +25,7 @@ make -j4
 cd ../..
 ```
 * install the required Node.js modules by running: `npm install`
-* then either just open CMakeLists.txt with QtCreator, configure it and press run
+* then either just open CMakeLists.txt with QtCreator, configure it, change the build directory to be inside the project folder and press run
 * or start from terminal with the following commands:
 
 
