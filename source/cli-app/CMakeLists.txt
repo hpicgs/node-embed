@@ -5,7 +5,6 @@
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
-find_package(Qt5 COMPONENTS Core Quick Concurrent REQUIRED)
 find_package(nodejs REQUIRED)
 
 
@@ -14,7 +13,7 @@ find_package(nodejs REQUIRED)
 #
 
 # Target name
-set(target node-embed)
+set(target node-embed-cli)
 
 # Exit here if required dependencies are not met
 message(STATUS "Application ${target}")
@@ -25,13 +24,11 @@ message(STATUS "Application ${target}")
 #
 
 set(headers
-    RssFeed.h
+
 )
 
 set(sources
     main.cpp
-    qml.qrc
-    RssFeed.cpp
 )
 
 
@@ -68,6 +65,7 @@ target_include_directories(${target}
     PRIVATE
     ${DEFAULT_INCLUDE_DIRECTORIES}
     ${PROJECT_SOURCE_DIR}/source/include
+    ${NODEJS_DEV_INCLUDE_DIR}
     ${NODEJS_INCLUDE_DIR}
 )
 
@@ -79,9 +77,6 @@ target_include_directories(${target}
 target_link_libraries(${target}
     PRIVATE
     ${DEFAULT_LIBRARIES}
-    Qt5::Core
-    Qt5::Quick
-    Qt5::Concurrent
     ${NODEJS_LIBRARY}
 )
 
@@ -141,9 +136,4 @@ if(WIN32)
     COMMAND ${CMAKE_COMMAND} -E copy_if_different  # which executes "cmake - E copy_if_different..."
         ${CMAKE_SOURCE_DIR}/externals/node-v9.0.0/Release/node.dll      # <--this is in-file
         $<TARGET_FILE_DIR:${target}>)                 # <--this is out-file path
-
-    # Copy Qt dependencies
-    find_program(WINDEPLOYQT_EXECUTABLE NAMES windeployqt HINTS ${Qt5_DIR}/../../../ ENV QTDIR PATH_SUFFIXES bin)
-    add_custom_command(TARGET ${target} POST_BUILD
-    COMMAND ${WINDEPLOYQT_EXECUTABLE} --no-patchqt --qmldir ${CMAKE_SOURCE_DIR}/source/demo-app $<TARGET_FILE:${target}>)
 endif()

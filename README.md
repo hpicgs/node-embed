@@ -54,6 +54,14 @@ make -j6
 
 ### Running the application
 
+#### Windows
 ```
-./node-embedd.exe ../source/demo-app/rss_feed.js
+./node-embedd-qt.exe ../source/qt-app/rss_feed.js
+./node-embedd-cli.exe
+```
+
+#### Linux
+```
+./node-embed-qt ../source/qt-app/rss_feed.js
+./node-embed-cli
 ```
