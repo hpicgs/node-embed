@@ -17,6 +17,7 @@ set(IDE_FOLDER "")
 # Applications
 set(IDE_FOLDER "Applications")
 add_subdirectory(qt-rss)
+add_subdirectory(simple-log)
 
 # Examples
 set(IDE_FOLDER "Examples")
