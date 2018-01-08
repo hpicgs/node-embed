@@ -9,7 +9,7 @@ find_path(NODEJS_INCLUDE_DIR node.h PATHS
 "${CMAKE_SOURCE_DIR}/externals/node-v9.0.0/include/node"
  NO_DEFAULT_PATH
 )
-find_library(NODEJS_LIBRARY NAMES node libnode.lib libnode.so.59
+find_library(NODEJS_LIBRARY NAMES node libnode.lib libnode.so.59 libnode.59.dylib
 PATHS
     "${CMAKE_SOURCE_DIR}/externals/node-v9.0.0/Release"
     "${CMAKE_SOURCE_DIR}/externals/node-v9.0.0/out/Release/lib.target"
