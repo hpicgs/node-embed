@@ -59,7 +59,5 @@ externals/*
 !externals/.gitkeep
 node-embed
 node_modules/
-source/demo-app/node-embed_autogen/
-source/include/
 .vscode/
 *.log
