@@ -5,7 +5,7 @@
 
 int main(int argc, char* argv[]) {
     std::cout << "Hello from C++" << std::endl;
-    node::lib::Initialize(argc, argv);
+    node::lib::Initialize("here_is_the_program_name");
 
     std::cout << "Running debug.js from C++" << std::endl;
     node::lib::Run("debug.js");
