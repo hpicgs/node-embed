@@ -2,65 +2,74 @@
 
 ## Purpose of this repository
 
-This repository aims at demonstrating the usage of the shared library API in Node.js' current implementation, as well as the new, extended implementation of said API proposed in [this Node.js fork](https://github.com/hpicgs/node). This repository is a work in progress in the "Advanced Development in C++" project seminar at Hasso Platter Institute's Chair of Computer Graphics Systems.
+This repository aims at demonstrating the usage of the shared library API in Node.js' implementation as of version 9.0.0, as well as the new, extended implementation of said API proposed in [this Node.js fork](https://github.com/hpicgs/node). This repository is a work in progress in the "Advanced Development in C++" project seminar at Hasso Platter Institute's Chair of Computer Graphics Systems.
 
-## Setup
+## Dependency Setup
 
-* download the Node.js headers:
+Make sure you have the Qt Version 5.6 or newer installed from [here](https://download.qt.io/official_releases/qt/).
+
+Clone this repository:
+```
+git clone git@github.com:hpicgs/node-embed.git
+```
+
+For all of the examples to work, you will need to clone node.js from [here](https://github.com/hpicgs/node) into the ```externals``` folder in this repo's root directory and build it:
 ```
 mkdir externals
 cd externals
-wget http://nodejs.org/dist/v9.0.0/node-v9.0.0-headers.tar.gz
-tar -xzvf node-v9.0.0-headers.tar.gz
-cd ..
-```
-* either copy Node lib binary to externals/node-v9.0.0/Release/ or build it from source:
-```
-cd externals
-wget http://nodejs.org/dist/v9.0.0/node-v9.0.0.tar.gz
-tar -xzvf node-v9.0.0.tar.gz
+git clone git@github.com:hpicgs/node.git
 cd node-v9.0.0
 ./configure --shared
 make -j4
 cd ../..
 ```
-* install the required Node.js modules by running: `npm install`
-* then either just open CMakeLists.txt with QtCreator, configure it and press run
-* or start from terminal with the following commands:
+Alternatively, if you have built the shared libraries before, you can copy them into ```externals/node-v9.0.0/Release/```. If you only want to try out the old API example, you can also build node from [here](http://nodejs.org/dist/v9.0.0/node-v9.0.0.tar.gz).
 
+Next, download the headers needed to include the Node.js shared libraries and place them in the node directory:
+```
+cd externals
+wget http://nodejs.org/dist/v9.0.0/node-v9.0.0-headers.tar.gz
+tar -xzvf node-v9.0.0-headers.tar.gz
+cd ..
+```
+Install the required Node.js modules by running: ```npm install```.
 
-### Building the project
+## Building the project
 
-#### Windows
+We use cmake to build this project. If you want, you can build it in a dedicated ```build``` directory, but beware that the cli-app has to be run from the repo's root directory to work completely.
+
+### Windows
 
 Make sure you have Qt installed for the Visual Studio compiler.
 
 ```
-cmake -G "Visual Studio 15 2017 Win64" -DCMAKE_PREFIX_PATH='C:\Qt\Qt5.9.3\5.9.3\msvc2017_64\lib\cmake' .
+cmake -G "Visual Studio 15 2017 Win64" -DCMAKE_PREFIX_PATH='C:\Qt\Qt[VERSION]\[VERSION]\msvc2017_64\lib\cmake' .
 cmake --build .
 ```
 
-#### Linux
+### Linux
 
 ```
-CMAKE_PREFIX_PATH=~/Qt/5.10.0/gcc_64/lib/cmake/Qt5 cmake .
-make -j6
+cmake . -DCMAKE_PREFIX_PATH=[QT INSTALL DIR]/[VERSION]/gcc_64/lib/cmake/Qt5
+make
 ```
 
-#### Mac
+### Mac
 
-* Set Environment Variables:
-    - CMAKE_PREFIX_PATH must point to your Qt directory (e.g. /Users/[USRNAME]/Qt/[QT-VERSION]/clang_64)
+```
+cmake . -DCMAKE_PREFIX_PATH=[QT INSTALL DIR]/[QT_VERSION]/clang_64
+make
+```
 
-### Running the application
+## Running the application
 
-#### Windows
+### Windows
 ```
 ./node-embedd-qt.exe ../source/qt-app/rss_feed.js
 ./node-embedd-cli.exe
 ```
 
-#### Linux
+### Linux/ MacOS
 ```
 ./node-embed-qt ../source/qt-app/rss_feed.js
 ./node-embed-cli
