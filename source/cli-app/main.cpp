@@ -19,9 +19,10 @@ int main(int argc, char* argv[]) {
     node::lib::Evaluate("console.log('this is EVEN MORE evaluated!');console.log(christian);");
     while (node::lib::ProcessEvents()) { }
 
+    /* TODO: Doesn't work yet.
     auto fs = node::lib::IncludeModule("fs");
     node::lib::Call(fs, "foo");
     while (node::lib::ProcessEvents()) { }
-
+    */
     return 0;
 }
