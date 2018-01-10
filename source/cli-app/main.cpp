@@ -14,16 +14,24 @@ int main(int argc, char* argv[]) {
 
     std::cout << "Evaluating stuff from C++" << std::endl;
     node::lib::Evaluate("console.log('this is evaluated!');let christian = 'hmm';");
-    while (node::lib::ProcessEvents()) { }
 
     std::cout << "Evaluating MORE stuff from C++" << std::endl;
     node::lib::Evaluate("console.log('this is EVEN MORE evaluated!');console.log(christian);");
-    while (node::lib::ProcessEvents()) { }
+    v8::Isolate *isolate = v8::Isolate::GetCurrent();
 
-    /* TODO: Doesn't work yet.
     auto fs = node::lib::IncludeModule("fs");
-    node::lib::Call(fs, "foo");
-    while (node::lib::ProcessEvents()) { }
-    */
+    // Check if file cli-test.js exists in the current working directory.
+    auto result = node::lib::Call(fs, "existsSync", {v8::String::NewFromUtf8(isolate, "cli-test.js")});
+    auto file_exists = v8::Local<v8::Boolean>::Cast(result)->BooleanValue();
+    std::cout << (file_exists ? "cli-test.js exists in cwd" : "cli-test.js does not exist in cwd") << std::endl;
+
+    auto root = node::lib::GetRootObject();
+    node::lib::Call(root, "eval", {v8::String::NewFromUtf8(isolate, "console.log('1234');")});
+
+    // This would never return and run forever, even if Terminate is called.
+    //node::lib::Evaluate("while (true) {}");
+
+    node::lib::Terminate();
+
     return 0;
 }
