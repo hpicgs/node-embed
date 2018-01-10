@@ -16,7 +16,8 @@ set(IDE_FOLDER "")
 
 # Applications
 set(IDE_FOLDER "Applications")
-add_subdirectory(demo-app)
+add_subdirectory(qt-app)
+add_subdirectory(cli-app)
 
 # Examples
 set(IDE_FOLDER "Examples")
