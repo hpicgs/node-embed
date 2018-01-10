@@ -5,7 +5,8 @@
 
 int main(int argc, char* argv[]) {
     std::cout << "Hello from C++" << std::endl;
-    node::lib::Initialize("here_is_the_program_name");
+    std::string program_name = argc >= 1 ? std::string(argv[0]) : "cli_app";
+    node::lib::Initialize(program_name);
 
     std::cout << "Running cli-test.js from C++" << std::endl;
     node::lib::Run("cli-test.js");
