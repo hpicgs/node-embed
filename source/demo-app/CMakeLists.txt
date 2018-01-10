@@ -14,7 +14,7 @@ find_package(nodejs REQUIRED)
 #
 
 # Target name
-set(target qt-rss)
+set(target node-embed)
 
 # Exit here if required dependencies are not met
 message(STATUS "Application ${target}")
@@ -145,5 +145,5 @@ if(WIN32)
     # Copy Qt dependencies
     find_program(WINDEPLOYQT_EXECUTABLE NAMES windeployqt HINTS ${Qt5_DIR}/../../../ ENV QTDIR PATH_SUFFIXES bin)
     add_custom_command(TARGET ${target} POST_BUILD
-    COMMAND ${WINDEPLOYQT_EXECUTABLE} --no-patchqt --qmldir ${CMAKE_CURRENT_SOURCE_DIR} $<TARGET_FILE:${target}>)
+    COMMAND ${WINDEPLOYQT_EXECUTABLE} --no-patchqt --qmldir ${CMAKE_SOURCE_DIR}/source/demo-app $<TARGET_FILE:${target}>)
 endif()
