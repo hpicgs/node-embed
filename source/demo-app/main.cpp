@@ -5,6 +5,7 @@
 #include <QTimer>
 
 #include "node.h"
+#include "node_lib.h"
 
 #include "RssFeed.h"
 
@@ -25,14 +26,15 @@ int main(int argc, char* argv[]) {
         return -1;
     }
 
-    node::lib::initialize();
-    node::lib::loadScript("rss_feeds.js");
+    node::lib::Initialize("rss_feed_demo_app");
+    node::lib::Run("rss_feeds.js");
+    while (node::lib::ProcessEvents()) { }
 
     QTimer nodeTickTimer();
-    QObject::connect(&nodeTickTimer, &QTimer::timeout, [](){ node::lib::processEvents(); });
+    QObject::connect(&nodeTickTimer, &QTimer::timeout, this, [](){ node::lib::ProcessEvents(); });
     nodeTickTimer.start(20);
 
     app.exec();
 
-    node::lib::terminate();
+    node::lib::Terminate();
 }

@@ -6,15 +6,17 @@ RssFeed::RssFeed(QObject* parent)
 {
     connect(&m_refreshTimer, &QTimer::timeout, this, &RssFeed::refreshFeed);
 
-    QTimer::singleShot(200, &RssFeed::refreshFeed);
+    QTimer::singleShot(200, this, &RssFeed::refreshFeed);
 }
 
 void RssFeed::refreshFeed() {
+    v8::Isolate * isolate = v8::Isolate::GetCurrent();
     m_entries.clear();
-    node::lib::call("emitRequest",
-                    'http://feeds.bbci.co.uk/news/world/rss.xml',
-                    [this](v8::Local<v8::Value> entry){ addEntry(entry); },
-                    [this](){ emit entriesChanged(); } );
+    node::lib::call(node::lib::GetRootObject(),
+                    "emitRequest",
+                    v8::String::NewFromUtf8(isolate, "http://feeds.bbci.co.uk/news/world/rss.xml"),
+                    v8::Function::New(isolate, [this](const v8::FunctionCallbackInfo<v8::Value> & info){ addEntry(info[0]); }),
+                    v8::Function::New(isolate, [this](const v8::FunctionCallbackInfo<v8::Value> & info){ emit entriesChanged(); } ));
 }
 
 void RssFeed::addEntry(v8::Local<v8::Value> entry) {

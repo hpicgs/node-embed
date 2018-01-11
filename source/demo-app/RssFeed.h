@@ -4,7 +4,9 @@
 #include <QObject>
 #include <QTimer>
 
+#include "v8.h"
 #include "node.h"
+#include "node_lib.h"
 
 /**
  * @brief The RssFeed class retrieves an RSS feed from the Internet and provides its entries.
