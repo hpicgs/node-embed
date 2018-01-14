@@ -3,6 +3,10 @@
 #include "node.h"
 #include "node_lib.h"
 
+void calledFromJs(const v8::FunctionCallbackInfo<v8::Value>& args){
+    std::cout << "I was called from JS!" << std::endl;
+}
+
 int main(int argc, char* argv[]) {
     std::cout << "Hello from C++" << std::endl;
     std::string program_name = argc >= 1 ? std::string(argv[0]) : "cli_app";
@@ -30,6 +34,16 @@ int main(int argc, char* argv[]) {
 
     // This would never return and run forever, even if Terminate is called.
     //node::lib::Evaluate("while (true) {}");
+
+    auto funcs = std::map<std::string, v8::FunctionCallback> {
+            {"callFromJs", calledFromJs},
+    };
+    node::lib::RegisterModule("CliDemoModule", funcs);
+    node::lib::Evaluate(R"(
+        var cliDemoModule = process.binding('CliDemoModule');
+        cliDemoModule.callFromJs();
+)"
+    );
 
     node::lib::Terminate();
 
