@@ -28,6 +28,7 @@ Alternatively, if you have built the shared libraries before, you can copy them 
 Next, download the headers needed to include the Node.js shared libraries and place them in the node directory:
 ```
 cd externals
+# MacOS: use curl instead of wget
 wget http://nodejs.org/dist/v9.0.0/node-v9.0.0-headers.tar.gz
 tar -xzvf node-v9.0.0-headers.tar.gz
 cd ..
@@ -69,8 +70,14 @@ make
 ./node-embedd-cli.exe
 ```
 
-### Linux/ MacOS
+### Linux
 ```
 ./node-embed-qt ../source/qt-app/rss_feed.js
 ./node-embed-cli
+```
+
+### MacOS
+```
+./node-embed-qt.app/Contents/MacOS/node-embed-qt  PATH/TO/node-embed/source/qt-app/rss_feed.js
+./node-embed-cli.app/Contents/MacOS/node-embed-cli
 ```
