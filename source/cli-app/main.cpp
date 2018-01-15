@@ -45,7 +45,7 @@ int main(int argc, char* argv[]) {
 )"
     );
 
-    node::lib::Terminate();
+    node::lib::StopEventLoop();
 
     return 0;
 }
