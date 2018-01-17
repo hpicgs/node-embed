@@ -14,7 +14,7 @@ find_package(nodejs REQUIRED)
 #
 
 # Target name
-set(target node-embed-qt)
+set(target node-qt-rss)
 
 # Exit here if required dependencies are not met
 message(STATUS "Application ${target}")

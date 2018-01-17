@@ -14,7 +14,7 @@ find_package(nodejs REQUIRED)
 #
 
 # Target name
-set(target rss-qt-node)
+set(target node-lib-qt-rss)
 
 # Exit here if required dependencies are not met
 message(STATUS "Application ${target}")

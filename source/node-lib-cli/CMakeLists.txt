@@ -13,7 +13,7 @@ find_package(nodejs REQUIRED)
 #
 
 # Target name
-set(target node-embed-cli)
+set(target node-lib-cli)
 
 # Exit here if required dependencies are not met
 message(STATUS "Application ${target}")

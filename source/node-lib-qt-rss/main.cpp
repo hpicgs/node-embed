@@ -16,6 +16,7 @@
 int main(int argc, char* argv[]) {
     if (argc < 2) {
         qFatal("Provide script path!");
+        return -1;
     }
 
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
