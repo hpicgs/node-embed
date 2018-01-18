@@ -34,7 +34,7 @@ int main(int argc, char* argv[]) {
         return -1;
     }
 
-    QObject::connect(&engine, &QQmlEngine::quit, [](){ node::lib::RequestStopEventLoop(); });
+    QObject::connect(&engine, &QQmlEngine::quit, [](){ node::lib::StopEventLoop(); });
 
     node::lib::Initialize();
     node::lib::RegisterModule("CppDemoModule", {
@@ -44,5 +44,5 @@ int main(int argc, char* argv[]) {
                               });
     node::lib::Run(argv[1]);
     node::lib::RunEventLoop([](){ QCoreApplication::processEvents(); });
-    //node::lib::Deinitialize();
+    node::lib::Deinitialize();
 }
