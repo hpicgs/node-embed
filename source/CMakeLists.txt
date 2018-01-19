@@ -16,8 +16,9 @@ set(IDE_FOLDER "")
 
 # Applications
 set(IDE_FOLDER "Applications")
-add_subdirectory(qt-app)
-add_subdirectory(cli-app)
+add_subdirectory(node-qt-rss)
+add_subdirectory(node-lib-qt-rss)
+add_subdirectory(node-lib-cli)
 
 # Examples
 set(IDE_FOLDER "Examples")
