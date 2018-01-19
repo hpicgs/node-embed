@@ -31,7 +31,7 @@ var emitRequest = function () {
   });
  
   feedparser.on('error', function (error) {
-    // always handle errors
+    // catch all parser errors but don't handle them
   });
   
   feedparser.on('readable', function () {
