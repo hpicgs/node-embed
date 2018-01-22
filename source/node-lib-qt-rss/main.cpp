@@ -37,11 +37,11 @@ int main(int argc, char* argv[]) {
     QObject::connect(&engine, &QQmlEngine::quit, [](){ node::lib::StopEventLoop(); });
 
     node::lib::Initialize();
-    node::lib::RegisterModule("cppDemoModule", {
+    node::lib::RegisterModule("cpp-demo-module", {
                                 {"cppLog", RssFeed::cppLog},
                                 {"clearFeed", RssFeed::clearFeed},
                                 {"redrawGUI", RssFeed::redrawGUI},
-                              }, true);
+                              }, "cppDemoModule");
     node::lib::Run(argv[1]);
     node::lib::RunEventLoop([](){ QCoreApplication::processEvents(); });
     node::lib::Deinitialize();
