@@ -1,5 +1,3 @@
-var cppDemoModule = process.binding('CppDemoModule');
-
 var FeedParser = require('feedparser');
 var request = require('request'); // for fetching the feed
 
