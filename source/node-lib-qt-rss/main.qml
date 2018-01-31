@@ -9,7 +9,13 @@ ApplicationWindow {
     title: qsTr("RSS Feed Viewer using Node.js")
     onClosing: Qt.quit()
 
+
     ListView {
+        header: 
+            Button {
+                text: "Refresh"
+                onClicked: rssFeed.refreshFeed()
+            }
         anchors.fill: parent
         model: rssFeed.entries
 

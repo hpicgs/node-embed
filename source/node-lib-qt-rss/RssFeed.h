@@ -19,6 +19,7 @@ public:
     static void cppLog(const v8::FunctionCallbackInfo<v8::Value>& args);
     static RssFeed& getInstance();
     static void redrawGUI(const v8::FunctionCallbackInfo<v8::Value>& args);
+    Q_INVOKABLE static void refreshFeed();
 
 private:
     static RssFeed* instance;
