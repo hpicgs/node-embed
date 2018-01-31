@@ -25,11 +25,11 @@ int main(int argc, char* argv[]) {
 
     auto fs = node::lib::IncludeModule("fs");
     // Check if file cli-test.js exists in the current working directory.
-    auto result = node::lib::Call(fs, "existsSync", {v8::String::NewFromUtf8(isolate, "cli-test.js")});
-    auto file_exists = v8::Local<v8::Boolean>::Cast(result)->BooleanValue();
+    auto result = node::lib::Call(fs.ToLocalChecked(), "existsSync", {v8::String::NewFromUtf8(isolate, "cli-test.js")});
+    auto file_exists = v8::Local<v8::Boolean>::Cast(result.ToLocalChecked())->BooleanValue();
     std::cout << (file_exists ? "cli-test.js exists in cwd" : "cli-test.js does not exist in cwd") << std::endl;
 
-    auto root = node::lib::GetRootObject();
+    auto root = node::lib::GetRootObject().ToLocalChecked();
     node::lib::Call(root, "eval", {v8::String::NewFromUtf8(isolate, "console.log('1234');")});
 
     // This would never return and run forever, even if Terminate is called.
