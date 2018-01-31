@@ -64,20 +64,25 @@ make
 
 ## Running the application
 
+From the repositorys root directory, run:
+
 ### Windows
 ```
-./node-embedd-qt.exe ../source/qt-app/rss_feed.js
-./node-embedd-cli.exe
+./node-qt-rss.exe PATH/TO/node-embed/source/node-qt-rss/rss_feed.js
+./node-lib-qt-rss.exe PATH/TO/node-embed/source/node-lib-qt-rss/rss_feed.js
+./node-lib-cli.exe
 ```
 
 ### Linux
 ```
-./node-embed-qt ../source/qt-app/rss_feed.js
-./node-embed-cli
+./node-qt-rss PATH/TO/node-embed/source/node-qt-rss/rss_feed.js
+./node-lib-qt-rss PATH/TO/node-embed/source/node-lib-qt-rss/rss_feed.js
+./node-lib-cli
 ```
 
 ### MacOS
 ```
-./node-embed-qt.app/Contents/MacOS/node-embed-qt  PATH/TO/node-embed/source/qt-app/rss_feed.js
-./node-embed-cli.app/Contents/MacOS/node-embed-cli
+./node-qt-rss.app/Contents/MacOS/node-qt-rss  PATH/TO/node-embed/source/node-qt-rss/rss_feed.js
+./node-lib-qt-rss.app/Contents/MacOS/node-lib-qt-rss  PATH/TO/node-embed/source/node-lib-qt-rss/rss_feed.js
+./node-lib-cli.app/Contents/MacOS/node-lib-cli
 ```
