@@ -34,13 +34,6 @@ int main(int argc, char* argv[]) {
         return -1;
     }
 
-    QObject::connect(&engine,
-            &QQmlEngine::quit,
-            [](){
-                node::lib::StopEventLoop();
-                node::lib::Deinitialize();
-            });
-
     node::lib::Initialize();
     node::lib::RegisterModule("cpp-demo-module", {
                                 {"cppLog", RssFeed::cppLog},
@@ -50,4 +43,5 @@ int main(int argc, char* argv[]) {
     node::lib::Run(argv[1]);
     RssFeed::refreshFeed();
     app.exec();
+    node::lib::Deinitialize();
 }
