@@ -34,8 +34,6 @@ int main(int argc, char* argv[]) {
         return -1;
     }
 
-    QObject::connect(&engine, &QQmlEngine::quit, [](){ node::lib::StopEventLoop(); });
-
     node::lib::Initialize();
     node::lib::RegisterModule("cpp-demo-module", {
                                 {"cppLog", RssFeed::cppLog},
@@ -43,6 +41,7 @@ int main(int argc, char* argv[]) {
                                 {"redrawGUI", RssFeed::redrawGUI},
                               }, "cppDemoModule");
     node::lib::Run(argv[1]);
-    node::lib::RunEventLoop([](){ QCoreApplication::processEvents(); });
+    RssFeed::refreshFeed();
+    app.exec();
     node::lib::Deinitialize();
 }

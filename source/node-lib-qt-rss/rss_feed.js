@@ -41,8 +41,5 @@ var emitRequest = function () {
 
   feedparser.on('end', function (){
     cppDemoModule.redrawGUI();
-    setTimeout(emitRequest, 3000);
   });
 }
-
-emitRequest();

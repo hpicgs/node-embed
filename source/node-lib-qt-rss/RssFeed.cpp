@@ -1,5 +1,8 @@
 #include "RssFeed.h"
+
 #include <iostream>
+#include <QGuiApplication>
+#include "node_lib.h"
 
 RssFeed* RssFeed::instance = nullptr;
 
@@ -26,6 +29,11 @@ void RssFeed::clearFeed(const v8::FunctionCallbackInfo<v8::Value>& args) {
 
 void RssFeed::redrawGUI(const v8::FunctionCallbackInfo<v8::Value>& args) {
     emit getInstance().entriesChanged();
+}
+
+void RssFeed::refreshFeed() {
+    node::lib::Evaluate("emitRequest()");
+    node::lib::RunEventLoop([](){ QGuiApplication::processEvents(); });
 }
 
 void RssFeed::cppLog(const v8::FunctionCallbackInfo<v8::Value>& args){
