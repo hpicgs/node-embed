@@ -9,6 +9,8 @@
 #include <QtConcurrent>
 #include <QTimer>
 
+#include <cpplocate/cpplocate.h>
+
 #include "node.h"
 #include "uv.h"
 
@@ -61,6 +63,14 @@ void onRegisterModule(v8::Local<v8::Object> exports, v8::Local<v8::Value>, v8::L
 }
 
 int main(int argc, char* argv[]) {
+    const std::string js_file = "data/node-qt-rss.js";
+    const std::string data_path = cpplocate::locatePath(js_file);
+    if (data_path.empty()) {
+        std::cerr << "Could not find data path." << std::endl;
+        return 1;
+    }
+    std::string js_path = data_path + "/" + js_file;
+
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QGuiApplication app(argc, argv);
 
@@ -94,5 +104,7 @@ int main(int argc, char* argv[]) {
     node_module_register(&_rssModule);
 
     QObject::connect(&engine, &QQmlEngine::quit, [](){ uv_async_send(&jsExitData->request); });
-    node::Start(argc, argv);
+
+    char *node_argv[] = {argv[0], &js_path[0]};
+    node::Start(2, node_argv);
 }

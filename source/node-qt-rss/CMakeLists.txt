@@ -7,6 +7,7 @@ set(CMAKE_AUTORCC ON)
 
 find_package(Qt5 COMPONENTS Core Quick Concurrent REQUIRED)
 find_package(nodejs REQUIRED)
+find_package(cpplocate REQUIRED)
 
 
 #
@@ -84,6 +85,7 @@ target_link_libraries(${target}
     Qt5::Quick
     Qt5::Concurrent
     ${NODEJS_LIBRARY}
+    cpplocate::cpplocate
 )
 
 #

@@ -6,6 +6,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
 find_package(nodejs REQUIRED)
+find_package(cpplocate REQUIRED)
 
 
 #
@@ -78,6 +79,7 @@ target_link_libraries(${target}
     PRIVATE
     ${DEFAULT_LIBRARIES}
     ${NODEJS_LIBRARY}
+    cpplocate::cpplocate
 )
 
 #

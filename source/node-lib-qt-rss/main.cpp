@@ -8,16 +8,21 @@
 #include <QQmlContext>
 #include <QTimer>
 
+#include <cpplocate/cpplocate.h>
+
 #include "node.h"
 #include "node_lib.h"
 
 #include "RssFeed.h"
 
 int main(int argc, char* argv[]) {
-    if (argc < 2) {
-        qFatal("Provide script path!");
-        return -1;
+    const std::string js_file = "data/node-lib-qt-rss.js";
+    const std::string data_path = cpplocate::locatePath(js_file);
+    if (data_path.empty()) {
+        std::cerr << "Could not find data path." << std::endl;
+        return 1;
     }
+    const std::string js_path = data_path + "/" + js_file;
 
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QGuiApplication app(argc, argv);
@@ -40,7 +45,7 @@ int main(int argc, char* argv[]) {
                                 {"clearFeed", RssFeed::clearFeed},
                                 {"redrawGUI", RssFeed::redrawGUI},
                               }, "cppDemoModule");
-    node::lib::Run(argv[1]);
+    node::lib::Run(js_path);
     RssFeed::refreshFeed();
     app.exec();
     node::lib::Deinitialize();

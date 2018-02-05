@@ -1,9 +1,9 @@
-console.log('Hi from cli-test.js');
+console.log('Hi from node-lib-cli.js');
 
 let i = 0;
 
 const hello = () => {
-    console.log('Hello again from cli-test.js: ' + i);
+    console.log('Hello again from node-lib-cli.js: ' + i);
     i++;
     if (i < 10) {
         setTimeout(hello, 200);
