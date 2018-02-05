@@ -21,7 +21,7 @@ int main(int argc, char* argv[]) {
     std::string program_name = argc >= 1 ? std::string(argv[0]) : "cli_app";
     node::lib::Initialize(program_name);
 
-    std::cout << "Running cli-test.js from C++" << std::endl;
+    std::cout << "Running node-lib-cli.js from C++" << std::endl;
     node::lib::Run(js_path);
     while (node::lib::ProcessEvents()) { }
 
@@ -33,7 +33,7 @@ int main(int argc, char* argv[]) {
     v8::Isolate *isolate = v8::Isolate::GetCurrent();
 
     auto fs = node::lib::IncludeModule("fs");
-    // Check if file cli-test.js exists.
+    // Check if file node-lib-cli.js exists.
     auto result = node::lib::Call(fs.ToLocalChecked(), "existsSync", {v8::String::NewFromUtf8(isolate, js_path.c_str())});
     auto file_exists = v8::Local<v8::Boolean>::Cast(result.ToLocalChecked())->BooleanValue();
     std::cout << (file_exists ? "node-lib-cli.js exists" : "node-lib-cli.js does not exist") << std::endl;
