@@ -1,6 +1,7 @@
 #include <iostream>
 #include <thread>
 #include <chrono>
+#include <cstring>
 
 #include <QDebug>
 #include <QGuiApplication>
@@ -105,6 +106,15 @@ int main(int argc, char* argv[]) {
 
     QObject::connect(&engine, &QQmlEngine::quit, [](){ uv_async_send(&jsExitData->request); });
 
-    char *node_argv[] = {argv[0], &js_path[0]};
+    const size_t argv0_len = std::strlen(argv[0]) + 1;
+    const size_t argv1_len = js_path.size() + 1;
+    const size_t total_size = argv0_len + argv1_len;
+
+    char node_arg_string[total_size] = {0};
+    std::strcpy(&node_arg_string[0], argv[0]);
+    std::copy(js_path.begin(), js_path.end(), &node_arg_string[argv0_len]);
+
+    char *node_argv[] = {&node_arg_string[0], &node_arg_string[argv0_len]};
+
     node::Start(2, node_argv);
 }
