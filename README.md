@@ -49,6 +49,7 @@ Install [cpplocate](https://github.com/cginternals/cpplocate.git). Here's how it
 ```
 cd /tmp
 git clone https://github.com/cginternals/cpplocate.git
+cd cpplocate
 mkdir build
 cd build
 cmake ..
