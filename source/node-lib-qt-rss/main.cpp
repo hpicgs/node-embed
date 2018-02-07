@@ -39,14 +39,14 @@ int main(int argc, char* argv[]) {
         return -1;
     }
 
-    node::lib::Initialize();
-    node::lib::RegisterModule("cpp-demo-module", {
+    node::Initialize();
+    node::RegisterModule("cpp-demo-module", {
                                 {"cppLog", RssFeed::cppLog},
                                 {"clearFeed", RssFeed::clearFeed},
                                 {"redrawGUI", RssFeed::redrawGUI},
                               }, "cppDemoModule");
-    node::lib::Run(js_path);
+    node::Run(js_path);
     RssFeed::refreshFeed();
     app.exec();
-    node::lib::Deinitialize();
+    node::Deinitialize();
 }

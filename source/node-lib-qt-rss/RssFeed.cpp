@@ -32,8 +32,8 @@ void RssFeed::redrawGUI(const v8::FunctionCallbackInfo<v8::Value>& args) {
 }
 
 void RssFeed::refreshFeed() {
-    node::lib::Evaluate("emitRequest()");
-    node::lib::RunEventLoop([](){ QGuiApplication::processEvents(); });
+    node::Evaluate("emitRequest()");
+    node::RunEventLoop([](){ QGuiApplication::processEvents(); });
 }
 
 void RssFeed::cppLog(const v8::FunctionCallbackInfo<v8::Value>& args){
