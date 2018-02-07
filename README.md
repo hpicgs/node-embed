@@ -6,7 +6,11 @@ This repository aims at demonstrating the usage of the shared library API in Nod
 
 ## Dependency Setup
 
+### Qt
+
 Make sure you have the Qt Version 5.6 or newer installed from [here](https://download.qt.io/official_releases/qt/).
+
+### Node.js
 
 Clone this repository:
 ```
@@ -33,7 +37,25 @@ wget http://nodejs.org/dist/v9.0.0/node-v9.0.0-headers.tar.gz
 tar -xzvf node-v9.0.0-headers.tar.gz
 cd ..
 ```
+
+### Node.js modules
+
 Install the required Node.js modules by running: ```npm install```.
+
+### cpplocate
+
+Install [cpplocate](https://github.com/cginternals/cpplocate.git). Here's how it could look like:
+
+```
+cd /tmp
+git clone https://github.com/cginternals/cpplocate.git
+cd cpplocate
+mkdir build
+cd build
+cmake ..
+cmake --build .
+sudo make install
+```
 
 ## Building the project
 
