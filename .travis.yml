@@ -60,7 +60,14 @@ before_script:
   - cd ..
   - wget http://nodejs.org/dist/v9.0.0/node-v9.0.0-headers.tar.gz
   - tar -xzf node-v9.0.0-headers.tar.gz
-  - cd ..
+  - git clone https://github.com/cginternals/cpplocate.git
+  - cd cpplocate
+  - mkdir build
+  - cd build
+  - cmake ..
+  - cmake --build .
+  - sudo make install
+  - cd ../../..
   - if [ $CMAKE_CONFIGURATION == release ]; then ./configure; fi
   - if [ $CMAKE_CONFIGURATION == debug ]; then ./configure debug; fi
   - mkdir $BUILD_DIR
