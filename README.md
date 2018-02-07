@@ -90,21 +90,21 @@ From the repositorys root directory, run:
 
 ### Windows
 ```
-./node-qt-rss.exe PATH/TO/node-embed/source/node-qt-rss/rss_feed.js
-./node-lib-qt-rss.exe PATH/TO/node-embed/source/node-lib-qt-rss/rss_feed.js
+./node-qt-rss.exe
+./node-lib-qt-rss.exe
 ./node-lib-cli.exe
 ```
 
 ### Linux
 ```
-./node-qt-rss PATH/TO/node-embed/source/node-qt-rss/rss_feed.js
-./node-lib-qt-rss PATH/TO/node-embed/source/node-lib-qt-rss/rss_feed.js
+./node-qt-rss
+./node-lib-qt-rss
 ./node-lib-cli
 ```
 
 ### MacOS
 ```
-./node-qt-rss.app/Contents/MacOS/node-qt-rss  PATH/TO/node-embed/source/node-qt-rss/rss_feed.js
-./node-lib-qt-rss.app/Contents/MacOS/node-lib-qt-rss  PATH/TO/node-embed/source/node-lib-qt-rss/rss_feed.js
+./node-qt-rss.app/Contents/MacOS/node-qt-rss
+./node-lib-qt-rss.app/Contents/MacOS/node-lib-qt-rss
 ./node-lib-cli.app/Contents/MacOS/node-lib-cli
 ```
