@@ -12,32 +12,32 @@ ApplicationWindow {
 
     ListView {
         anchors.fill: parent
-        anchors.topMargin: 15
+        anchors.topMargin: 10
         model: rssFeed.entries
 
         delegate: Item {
             width: parent.width
-            height: heading.contentHeight + content.contentHeight + 50
+            height: heading.contentHeight + content.contentHeight + 30
             Rectangle {
                 id: card
                 anchors.fill: parent
-                anchors.leftMargin: 15
-                anchors.rightMargin: 15
-                anchors.bottomMargin: 15
-                radius: 15
+                anchors.leftMargin: 10
+                anchors.rightMargin: 10
+                anchors.bottomMargin: 10
+                radius: 10
                 color: "#eee"
 
                 Text {
                     id: heading
                     anchors.top: parent.top
-                    anchors.topMargin: 10
+                    anchors.topMargin: 6
                     anchors.left: parent.left
-                    anchors.leftMargin: 10
+                    anchors.leftMargin: 6
                     anchors.right: parent.right
-                    anchors.rightMargin: 10
-                    height: 30
+                    anchors.rightMargin: 6
+                    height: 20
                     text: modelData.split("\n")[0] || "Heading missing"
-                    font.pointSize: 15
+                    font.pointSize: 12
                     font.bold: true
                     elide: Text.ElideRight
                 }
@@ -46,12 +46,12 @@ ApplicationWindow {
                     id: content
                     anchors.top: heading.bottom
                     anchors.left: parent.left
-                    anchors.leftMargin: 10
+                    anchors.leftMargin: 6
                     anchors.right: parent.right
-                    anchors.rightMargin: 10
+                    anchors.rightMargin: 6
                     anchors.bottom: parent.bottom
                     text: modelData.split("\n")[1] || "Content missing"
-                    font.pointSize: 14
+                    font.pointSize: 10
                     wrapMode: Text.Wrap
                 }
             }
@@ -64,7 +64,7 @@ ApplicationWindow {
         anchors.rightMargin: 40
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 40
-        width: 60
+        width: 45
         height: width
         radius: width / 2
         color: "#33a"
@@ -72,7 +72,7 @@ ApplicationWindow {
         Text {
             anchors.centerIn: parent
             text: "↻"
-            font.pointSize: 28
+            font.pointSize: 24
             font.bold: true
             color: "white"
         }
