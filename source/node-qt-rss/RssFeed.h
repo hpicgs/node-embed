@@ -58,12 +58,6 @@ public:
    */
   static void redrawGUI(const v8::FunctionCallbackInfo<v8::Value>& args);
 
-  /**
-   * @brief This method updates the feed by calling a JS function
-   * and running the Node.js main loop until the whole feed was received.
-   */
-  Q_INVOKABLE static void refreshFeed();
-
 private:
   static RssFeed* instance;   /*!< The singleton instance for this class. */
   QStringList entries;        /*!< The list of RSS feeds to display. */

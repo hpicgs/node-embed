@@ -6,7 +6,6 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
-#include <QTimer>
 
 #include <cpplocate/cpplocate.h>
 
@@ -20,7 +19,7 @@ int main(int argc, char* argv[]) {
   const std::string js_file = "data/node-lib-qt-rss.js";
   const std::string data_path = cpplocate::locatePath(js_file);
   if (data_path.empty()) {
-    std::cerr << "Could not find data path." << std::endl;
+    qWarning() << "Could not find data path.";
     return 1;
   }
   const std::string js_path = data_path + "/" + js_file;
@@ -37,7 +36,7 @@ int main(int argc, char* argv[]) {
   engine.load(QUrl(QLatin1String("qrc:/main.qml")));
   if (engine.rootObjects().isEmpty()) {
     qWarning() << "Error while loading QML file";
-    return -1;
+    return 1;
   }
 
   // Initialize Node.js engine:

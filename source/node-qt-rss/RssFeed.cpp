@@ -31,15 +31,6 @@ void RssFeed::redrawGUI(const v8::FunctionCallbackInfo<v8::Value>& args) {
   emit getInstance().entriesChanged();
 }
 
-void RssFeed::refreshFeed() {
-  // invoke the embedded JavaScript in order to fetch new RSS feeds:
-  node::Evaluate("emitRequest()");
-
-  // wait for the embedded JavaScript to finish its execution
-  // meanwhile, process any QT events
-  node::RunEventLoop([](){ QGuiApplication::processEvents(); });
-}
-
 void RssFeed::addFeedItem(const v8::FunctionCallbackInfo<v8::Value>& args) {
   // check, whether this method was called as expected
   // therefore, we need to make sure, that the first argument exists
