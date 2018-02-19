@@ -1,6 +1,6 @@
+#include <chrono>
 #include <iostream>
 #include <thread>
-#include <chrono>
 
 #include <QDebug>
 #include <QGuiApplication>
@@ -16,37 +16,51 @@
 #include "RssFeed.h"
 
 int main(int argc, char* argv[]) {
-    const std::string js_file = "data/node-lib-qt-rss.js";
-    const std::string data_path = cpplocate::locatePath(js_file);
-    if (data_path.empty()) {
-        std::cerr << "Could not find data path." << std::endl;
-        return 1;
-    }
-    const std::string js_path = data_path + "/" + js_file;
+  // Locate the JavaScript file we want to embed:
+  const std::string js_file = "data/node-lib-qt-rss.js";
+  const std::string data_path = cpplocate::locatePath(js_file);
+  if (data_path.empty()) {
+    std::cerr << "Could not find data path." << std::endl;
+    return 1;
+  }
+  const std::string js_path = data_path + "/" + js_file;
 
-    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-    QGuiApplication app(argc, argv);
+  // Initialize Qt:
+  QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+  QGuiApplication app(argc, argv);
+  QQmlApplicationEngine engine;
 
-    QQmlApplicationEngine engine;
+  // to be able to access the public slots of the RssFeed instance
+  // we inject a pointer to it in the QML context:
+  engine.rootContext()->setContextProperty("rssFeed", &RssFeed::getInstance());
 
-    // to be able to access the public slots of the RssFeed instance
-    // we inject a pointer to it in the QML context:
-    engine.rootContext()->setContextProperty("rssFeed", &RssFeed::getInstance());
+  engine.load(QUrl(QLatin1String("qrc:/main.qml")));
+  if (engine.rootObjects().isEmpty()) {
+    qWarning() << "Error while loading QML file";
+    return -1;
+  }
 
-    engine.load(QUrl(QLatin1String("qrc:/main.qml")));
-    if (engine.rootObjects().isEmpty()) {
-        qWarning() << "Error while loading QML file";
-        return -1;
-    }
+  // Initialize Node.js engine:
+  node::Initialize();
 
-    node::Initialize();
-    node::RegisterModule("cpp-demo-module", {
-                                {"cppLog", RssFeed::cppLog},
-                                {"clearFeed", RssFeed::clearFeed},
-                                {"redrawGUI", RssFeed::redrawGUI},
-                              }, "cppDemoModule");
-    node::Run(js_path);
-    RssFeed::refreshFeed();
-    app.exec();
-    node::Deinitialize();
+  // Register C++ methods to be used within JavaScript
+  // The third parameter binds the C++ module to that name,
+  // allowing the functions to be called like this: "cppQtGui.clearFeed(...)"
+  node::RegisterModule("cpp-qt-gui", {
+                         {"addFeedItem", RssFeed::addFeedItem},
+                         {"clearFeed", RssFeed::clearFeed},
+                         {"redraw", RssFeed::redrawGUI},
+                       }, "cppQtGui");
+
+  // Evaluate the JavaScript file once:
+  node::Run(js_path);
+
+  // Load intial RSS feed to display it:
+  RssFeed::refreshFeed();
+
+  // Run the Qt application:
+  app.exec();
+
+  // After we are done, deinitialize the Node.js engine:
+  node::Deinitialize();
 }
