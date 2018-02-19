@@ -91,7 +91,7 @@ int main(int argc, char* argv[]) {
     static node::node_module _rssModule =
     {
         NODE_MODULE_VERSION,
-        NM_F_BUILTIN,
+        0x01,  // FIXME: before: #define NM_F_BUILTIN   0x01
         nullptr,
         __FILE__,
         nullptr,
