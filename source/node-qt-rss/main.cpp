@@ -62,6 +62,7 @@ void onRegisterModule(v8::Local<v8::Object> exports, v8::Local<v8::Value>, v8::L
 }
 
 int main(int argc, char* argv[]) {
+  // Locate the JavaScript file we want to load:
   const std::string js_file = "data/node-qt-rss.js";
   const std::string data_path = cpplocate::locatePath(js_file);
   if (data_path.empty()) {
