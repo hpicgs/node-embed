@@ -3,11 +3,7 @@ var cppQtGui = process.binding('cpp-qt-gui');
 var FeedParser = require('feedparser');
 var request = require('request'); // for fetching the feed
 
-var killMe = function () {
-    process.exit();
-}
-
-cppQtGui.registerExitFunc(killMe);
+cppQtGui.registerExitFunc(process.exit);
 
 var emitRequest = function () {
   console.log("Refreshing feeds...")
