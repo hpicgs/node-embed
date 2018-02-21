@@ -30,7 +30,7 @@ var emitRequest = function () {
     var stream = this; // `this` is `feedparser`, which is a stream
     var item = stream.read();
 
-    if (item) {
+    if (item && item['title']) {
       var itemString = item['title'] + '\n' + item['description'];
       cppQtGui.addFeedItem( { item: itemString } );
     }
