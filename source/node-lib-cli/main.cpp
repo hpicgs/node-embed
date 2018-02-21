@@ -29,7 +29,7 @@ int main(int argc, char* argv[]) {
   while (node::ProcessEvents()) { }
 
   std::cout << "[C++] Evaluating a JS string from C++" << std::endl;
-  node::Evaluate("let text = '[JS ] This is text is stored in a global variable in JS.';");
+  node::Evaluate("let text = '[JS] This is text stored in a global variable in JS.';");
   node::Evaluate("console.log(text);");
 
   std::cout << "[C++] Loading the 'fs' NPM module directly from C++" << std::endl;
@@ -38,11 +38,11 @@ int main(int argc, char* argv[]) {
   v8::Isolate* isolate = v8::Isolate::GetCurrent();
   auto result = node::Call(fs.ToLocalChecked(), "existsSync", {v8::String::NewFromUtf8(isolate, js_path.c_str())});
   auto file_exists = v8::Local<v8::Boolean>::Cast(result.ToLocalChecked())->BooleanValue();
-  std::cout << (file_exists ? "[C++] node-lib-cli.js exists" : "[C++] node-lib-cli.js does not exist") << std::endl;
+  std::cout << (file_exists ? "[C++] node-lib-cli.js exists" : "[C++] node-lib-cli.js does NOT exist") << std::endl;
 
   std::cout << "[C++] Calling a global JS function from C++" << std::endl;
   auto root = node::GetRootObject().ToLocalChecked();
-  node::Call(root, "eval", {v8::String::NewFromUtf8(isolate, "console.log('[JS ] Called a global JS function.');")});
+  node::Call(root, "eval", {v8::String::NewFromUtf8(isolate, "console.log('[JS] Called a global JS function.');")});
 
   node::RegisterModule("CliDemoModule", {
                          {"cppFunctionExposedToJs", cppFunctionExposedToJs},
