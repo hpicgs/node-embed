@@ -7,7 +7,7 @@ var emitRequest = function () {
   var req = request('http://feeds.bbci.co.uk/news/world/rss.xml');
 
   req.on('error', function (error) {
-    // handle any request errors
+    // catch all request errors but don't handle them in this demo
   });
 
   req.on('response', function (res) {
@@ -17,29 +17,26 @@ var emitRequest = function () {
       this.emit('error', new Error('Bad status code'));
     }
     else {
-      cppDemoModule.clearFeed();
+      cppQtGui.clearFeed();
       stream.pipe(feedparser);
     }
   });
 
   feedparser.on('error', function (error) {
-    // catch all parser errors but don't handle them
+    // catch all parser errors but don't handle them in this demo
   });
 
   feedparser.on('readable', function () {
-    // This is where the action is!
     var stream = this; // `this` is `feedparser`, which is a stream
-    var meta = this.meta; // **NOTE** the "meta" is always available in the context of the feedparser instance
-    var item;
+    var item = stream.read();
 
-    var itemString = '';
-    while (item = stream.read()) {
-        itemString = itemString + item['title'] + '\n' + item['description'];
+    if (item && item['title']) {
+      var itemString = item['title'] + '\n' + item['description'];
+      cppQtGui.addFeedItem( { item: itemString } );
     }
-    cppDemoModule.cppLog({itemTitle: itemString});
   });
 
   feedparser.on('end', function (){
-    cppDemoModule.redrawGUI();
+    cppQtGui.redraw();
   });
 }
