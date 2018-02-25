@@ -8,7 +8,13 @@ This repository aims at demonstrating the usage of the shared library API in Nod
 
 ### Qt
 
-Make sure you have the Qt Version 5.6 or newer installed from [here](https://download.qt.io/official_releases/qt/).
+Make sure you have the Qt Version 5.6 or newer installed.
+You can download it from [the official website](https://download.qt.io/official_releases/qt/).
+If you're on Ubuntu, you can use the `beineri/opt-qt591-trusty` PPA and need the following packages:
+- qt59base
+- qt59declarative
+- qt59quickcontrols
+- qt59quickcontrols2
 
 ### Node.js
 
@@ -61,12 +67,19 @@ cmake --build .
 
 ### Linux
 
+If you're on the **Windows Subsystem for Linux**, you'll have to execute the following in addition:
 ```
-cmake . -DCMAKE_PREFIX_PATH=[QT INSTALL DIR]/[VERSION]/gcc_64/lib/cmake/Qt5
-make
+execstack -c externals/node/out/Release/lib.target/libnode.so.61
+execstack -c externals/node/out/Release/obj.target/libnode.so.61
 ```
 
-Alternatively, use the provided `./configure` script.
+```
+./configure
+# Adjust CMAKE_PREFIX_PATH (last line) in .localconfig/default to include the Qt cmake directory,
+# i.e. /opt/qt59/lib/cmake/Qt5
+./configure
+cmake --build build
+```
 
 ### Mac
 
@@ -77,7 +90,7 @@ make
 
 ## Running the application
 
-From the repository's root directory, run:
+Executing cmake will create three applications, which can be executed like so:
 
 ### Windows
 ```

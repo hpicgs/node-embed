@@ -41,6 +41,7 @@ addons:
       - qt59base
       - qt59declarative
       - qt59quickcontrols
+      - qt59quickcontrols2
 
 before_install:
   - if [ $TRAVIS_OS_NAME == linux ]; then CC=gcc-4.9 && CXX=g++-4.9; fi
