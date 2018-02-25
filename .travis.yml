@@ -49,15 +49,15 @@ before_install:
 
 before_script:
   - cd externals
-  - wget https://github.com/hpicgs/node/archive/node_lib.zip
-  - unzip -q node_lib.zip
+  - wget https://github.com/hpicgs/node/archive/dev.zip
+  - unzip -q dev.zip
   - mv node/out out
   - rm -rf node
-  - mv node-node_lib node
+  - mv node-dev node
   - mv out node/out
   - cd node
   - ./configure --shared
-  - make -j5
+  - make -j4
   - cd ..
   - git clone https://github.com/cginternals/cpplocate.git
   - cd cpplocate
