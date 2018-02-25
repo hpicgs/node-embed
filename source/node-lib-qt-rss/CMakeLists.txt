@@ -69,8 +69,9 @@ target_include_directories(${target}
     PRIVATE
     ${DEFAULT_INCLUDE_DIRECTORIES}
     ${PROJECT_SOURCE_DIR}/source/include
-    ${NODEJS_DEV_INCLUDE_DIR}
-    ${NODEJS_INCLUDE_DIR}
+    ${NODEJS_NODE_INCLUDE_DIR}
+    ${NODEJS_V8_INCLUDE_DIR}
+    ${NODEJS_UV_INCLUDE_DIR}
 )
 
 

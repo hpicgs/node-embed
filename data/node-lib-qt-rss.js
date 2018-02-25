@@ -4,7 +4,7 @@ var request = require('request'); // for fetching the feed
 var emitRequest = function () {
   console.log("Refreshing feeds...")
   var feedparser = new FeedParser([]);  
-  var req = request('http://feeds.bbci.co.uk/news/world/rss.xml')
+  var req = request('http://feeds.bbci.co.uk/news/world/rss.xml', {timeout: 3});
 
   req.on('error', function (error) {
     // handle any request errors

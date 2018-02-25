@@ -2,7 +2,7 @@
 
 ## Purpose of this repository
 
-This repository aims at demonstrating the usage of the shared library API in Node.js' implementation as of version 9.0.0, as well as the new, extended implementation of said API proposed in [this Node.js fork](https://github.com/hpicgs/node). This repository is a work in progress in the "Advanced Development in C++" project seminar at Hasso Platter Institute's Chair of Computer Graphics Systems.
+This repository aims at demonstrating the usage of the shared library API in Node.js' implementation as of version 9.0.0, as well as the new, extended implementation of said API proposed in [this Node.js fork](https://github.com/hpicgs/node). This repository is a work in progress in the "Advanced Development in C++" project seminar at Hasso Platter Institute's chair of Computer Graphics Systems.
 
 ## Dependency Setup
 
@@ -21,21 +21,11 @@ For all of the examples to work, you will need to clone node.js from [here](http
 ```
 mkdir externals
 cd externals
-git clone git@github.com:hpicgs/node.git
-cd node-v9.0.0
+git clone git@github.com:hpicgs/node.git node
+cd node
 ./configure --shared
 make -j4
 cd ../..
-```
-Alternatively, if you have built the shared libraries before, you can copy them into ```externals/node-v9.0.0/Release/```. If you only want to try out the old API example, you can also build node from [here](http://nodejs.org/dist/v9.0.0/node-v9.0.0.tar.gz).
-
-Next, download the headers needed to include the Node.js shared libraries and place them in the node directory:
-```
-cd externals
-# MacOS: use curl instead of wget
-wget http://nodejs.org/dist/v9.0.0/node-v9.0.0-headers.tar.gz
-tar -xzvf node-v9.0.0-headers.tar.gz
-cd ..
 ```
 
 ### Node.js modules
@@ -77,6 +67,8 @@ cmake . -DCMAKE_PREFIX_PATH=[QT INSTALL DIR]/[VERSION]/gcc_64/lib/cmake/Qt5
 make
 ```
 
+Alternatively, use the provided `./configure` script.
+
 ### Mac
 
 ```
@@ -86,7 +78,7 @@ make
 
 ## Running the application
 
-From the repositorys root directory, run:
+From the repository's root directory, run:
 
 ### Windows
 ```

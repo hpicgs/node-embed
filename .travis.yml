@@ -25,7 +25,7 @@ env:
 
 cache:
   directories:
-    - externals/node-v9.0.0/out
+    - externals/node/out
   timeout: 1000
 
 addons:
@@ -50,16 +50,14 @@ before_script:
   - cd externals
   - wget https://github.com/hpicgs/node/archive/node_lib.zip
   - unzip -q node_lib.zip
-  - mv node-v9.0.0/out out
-  - rm -rf node-v9.0.0
-  - mv node-node_lib node-v9.0.0
-  - mv out node-v9.0.0/out
-  - cd node-v9.0.0
+  - mv node/out out
+  - rm -rf node
+  - mv node-node_lib node
+  - mv out node/out
+  - cd node
   - ./configure --shared
   - make -j5
   - cd ..
-  - wget http://nodejs.org/dist/v9.0.0/node-v9.0.0-headers.tar.gz
-  - tar -xzf node-v9.0.0-headers.tar.gz
   - git clone https://github.com/cginternals/cpplocate.git
   - cd cpplocate
   - mkdir build

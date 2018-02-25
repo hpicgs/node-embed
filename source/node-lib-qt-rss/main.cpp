@@ -46,7 +46,7 @@ int main(int argc, char* argv[]) {
                                 {"redrawGUI", RssFeed::redrawGUI},
                               }, "cppDemoModule");
     node::Run(js_path);
-    RssFeed::refreshFeed();
+    //RssFeed::refreshFeed();
     app.exec();
     node::Deinitialize();
 }
