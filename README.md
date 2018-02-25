@@ -19,7 +19,6 @@ git clone git@github.com:hpicgs/node-embed.git
 
 For all of the examples to work, you will need to clone node.js from [here](https://github.com/hpicgs/node) into the ```externals``` folder in this repo's root directory and build it:
 ```
-mkdir externals
 cd externals
 git clone git@github.com:hpicgs/node.git node
 cd node
