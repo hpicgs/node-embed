@@ -2,13 +2,18 @@
 
 ## Purpose of this repository
 
-This repository aims at demonstrating the usage of the shared library API in Node.js' implementation as of version 9.0.0, as well as the new, extended implementation of said API proposed in [this Node.js fork](https://github.com/hpicgs/node). This repository is a work in progress in the "Advanced Development in C++" project seminar at Hasso Platter Institute's Chair of Computer Graphics Systems.
+This repository aims at demonstrating the usage of the shared library API in Node.js' implementation as of version 9.0.0, as well as the new, extended implementation of said API proposed in [this Node.js fork](https://github.com/hpicgs/node). This repository is a work in progress in the "Advanced Development in C++" project seminar at Hasso Platter Institute's chair of Computer Graphics Systems.
 
 ## Dependency Setup
 
 ### Qt
 
-Make sure you have the Qt Version 5.6 or newer installed from [here](https://download.qt.io/official_releases/qt/).
+Make sure you have the Qt Version 5.9 or newer installed.
+You can download it from [the official website](https://download.qt.io/official_releases/qt/).
+If you're on Ubuntu, you can use the `beineri/opt-qt591-trusty` PPA and need the following packages:
+- qt59base
+- qt59declarative
+- qt59quickcontrols2
 
 ### Node.js
 
@@ -19,23 +24,12 @@ git clone git@github.com:hpicgs/node-embed.git
 
 For all of the examples to work, you will need to clone node.js from [here](https://github.com/hpicgs/node) into the ```externals``` folder in this repo's root directory and build it:
 ```
-mkdir externals
 cd externals
-git clone git@github.com:hpicgs/node.git
-cd node-v9.0.0
+git clone git@github.com:hpicgs/node.git node
+cd node
 ./configure --shared
 make -j4
 cd ../..
-```
-Alternatively, if you have built the shared libraries before, you can copy them into ```externals/node-v9.0.0/Release/```. If you only want to try out the old API example, you can also build node from [here](http://nodejs.org/dist/v9.0.0/node-v9.0.0.tar.gz).
-
-Next, download the headers needed to include the Node.js shared libraries and place them in the node directory:
-```
-cd externals
-# MacOS: use curl instead of wget
-wget http://nodejs.org/dist/v9.0.0/node-v9.0.0-headers.tar.gz
-tar -xzvf node-v9.0.0-headers.tar.gz
-cd ..
 ```
 
 ### Node.js modules
@@ -72,9 +66,18 @@ cmake --build .
 
 ### Linux
 
+If you're on the **Windows Subsystem for Linux**, you'll have to execute the following in addition:
 ```
-cmake . -DCMAKE_PREFIX_PATH=[QT INSTALL DIR]/[VERSION]/gcc_64/lib/cmake/Qt5
-make
+execstack -c externals/node/out/Release/lib.target/libnode.so.61
+execstack -c externals/node/out/Release/obj.target/libnode.so.61
+```
+
+```
+./configure
+# Adjust CMAKE_PREFIX_PATH (last line) in .localconfig/default to include the Qt cmake directory,
+# i.e. /opt/qt59/lib/cmake/Qt5
+./configure
+cmake --build build
 ```
 
 ### Mac
@@ -86,7 +89,7 @@ make
 
 ## Running the application
 
-From the repositorys root directory, run:
+Executing cmake will create three applications, which can be executed like so:
 
 ### Windows
 ```

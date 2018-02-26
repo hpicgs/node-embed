@@ -25,7 +25,7 @@ env:
 
 cache:
   directories:
-    - externals/node-v9.0.0/out
+    - externals/node/out
   timeout: 1000
 
 addons:
@@ -41,6 +41,7 @@ addons:
       - qt59base
       - qt59declarative
       - qt59quickcontrols
+      - qt59quickcontrols2
 
 before_install:
   - if [ $TRAVIS_OS_NAME == linux ]; then CC=gcc-4.9 && CXX=g++-4.9; fi
@@ -48,18 +49,16 @@ before_install:
 
 before_script:
   - cd externals
-  - wget https://github.com/hpicgs/node/archive/node_lib.zip
-  - unzip -q node_lib.zip
-  - mv node-v9.0.0/out out
-  - rm -rf node-v9.0.0
-  - mv node-node_lib node-v9.0.0
-  - mv out node-v9.0.0/out
-  - cd node-v9.0.0
+  - wget https://github.com/hpicgs/node/archive/dev.zip
+  - unzip -q dev.zip
+  - mv node/out out
+  - rm -rf node
+  - mv node-dev node
+  - mv out node/out
+  - cd node
   - ./configure --shared
-  - make -j5
+  - make -j4
   - cd ..
-  - wget http://nodejs.org/dist/v9.0.0/node-v9.0.0-headers.tar.gz
-  - tar -xzf node-v9.0.0-headers.tar.gz
   - git clone https://github.com/cginternals/cpplocate.git
   - cd cpplocate
   - mkdir build
