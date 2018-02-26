@@ -8,12 +8,11 @@ This repository aims at demonstrating the usage of the shared library API in Nod
 
 ### Qt
 
-Make sure you have the Qt Version 5.6 or newer installed.
+Make sure you have the Qt Version 5.9 or newer installed.
 You can download it from [the official website](https://download.qt.io/official_releases/qt/).
 If you're on Ubuntu, you can use the `beineri/opt-qt591-trusty` PPA and need the following packages:
 - qt59base
 - qt59declarative
-- qt59quickcontrols
 - qt59quickcontrols2
 
 ### Node.js
