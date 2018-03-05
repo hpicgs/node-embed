@@ -49,14 +49,9 @@ public:
   static void addFeedItem(const v8::FunctionCallbackInfo<v8::Value>& args);
 
   /**
-   * @brief This method is called from the embedded JavaScript.
-   * It is used to refresh the GUI, after all retrieved feed items have been
-   * appended.
-   *
-   * @param args The arguments passed from the embedded JavaScript.
-   * Hint: This method does not expect any arguments.
+   * @brief This method is used to refresh the GUI after the feed items change.
    */
-  static void redrawGUI(const v8::FunctionCallbackInfo<v8::Value>& args);
+  static void redrawGUI();
 
   /**
    * @brief This method updates the feed by calling a JS function

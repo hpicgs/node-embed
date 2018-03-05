@@ -48,7 +48,6 @@ int main(int argc, char* argv[]) {
   node::RegisterModule("cpp-qt-gui", {
                          {"addFeedItem", RssFeed::addFeedItem},
                          {"clearFeed", RssFeed::clearFeed},
-                         {"redraw", RssFeed::redrawGUI},
                        }, "cppQtGui");
 
   // Evaluate the JavaScript file once:
