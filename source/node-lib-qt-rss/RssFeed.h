@@ -22,6 +22,8 @@ private:
    */
   explicit RssFeed(QObject* parent=nullptr);
 
+  ~RssFeed();
+
 public:
   /**
    * @brief Returns the singleton instance for this class.

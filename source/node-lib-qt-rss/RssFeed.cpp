@@ -2,6 +2,10 @@
 
 #include <iostream>
 #include <QGuiApplication>
+#include <QDebug>
+
+#include <cpplocate/cpplocate.h>
+
 #include "node_lib.h"
 
 RssFeed* RssFeed::instance = nullptr;
@@ -9,7 +13,33 @@ RssFeed* RssFeed::instance = nullptr;
 RssFeed::RssFeed(QObject* parent)
   : QObject(parent)
 {
+  // Locate the JavaScript file we want to load:
+  const std::string js_file = "data/node-lib-qt-rss.js";
+  const std::string data_path = cpplocate::locatePath(js_file);
+  if (data_path.empty()) {
+    qWarning() << "Could not find data path.";
+    throw std::exception();
+  }
+  const std::string js_path = data_path + "/" + js_file;
 
+  // Initialize Node.js engine:
+  node::Initialize();
+
+  // Register C++ methods to be used within JavaScript
+  // The third parameter binds the C++ module to that name,
+  // allowing the functions to be called like this: "cppQtGui.clearFeed(...)"
+  node::RegisterModule("cpp-qt-gui", {
+                         {"addFeedItem", RssFeed::addFeedItem},
+                         {"clearFeed", RssFeed::clearFeed},
+                       }, "cppQtGui");
+
+  // Evaluate the JavaScript file once:
+  node::Run(js_path);
+}
+
+RssFeed::~RssFeed() {
+  // After we are done, deinitialize the Node.js engine:
+  node::Deinitialize();
 }
 
 RssFeed& RssFeed::getInstance(){
