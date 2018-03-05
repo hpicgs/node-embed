@@ -55,8 +55,8 @@ void RssFeed::addFeedItem(const v8::FunctionCallbackInfo<v8::Value>& args) {
   v8::Local<v8::String> v8TitleKey       = v8::String::NewFromUtf8(isolate, "title");
   v8::Local<v8::String> v8DescriptionKey = v8::String::NewFromUtf8(isolate, "description");
 
-  v8::Local<v8::String> v8Title          = item->Get(context, v8TitleKey).ToLocalChecked();
-  v8::Local<v8::String> v8Description    = item->Get(context, v8DescriptionKey).ToLocalChecked();
+  v8::Local<v8::Value> v8Title          = item->Get(context, v8TitleKey).ToLocalChecked();
+  v8::Local<v8::Value> v8Description    = item->Get(context, v8DescriptionKey).ToLocalChecked();
 
   std::string title                      = *v8::String::Utf8Value(v8Title);
   std::string description                = *v8::String::Utf8Value(v8Description);
