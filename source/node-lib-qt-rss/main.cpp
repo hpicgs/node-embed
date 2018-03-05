@@ -42,6 +42,20 @@ int main(int argc, char* argv[]) {
   // Initialize Node.js engine:
   node::Initialize();
 
+  // Let's send a system notification that we are ready.
+  // We can either use node::Evaluate(), which pollutes the global namespace
+  // but is easier to read.
+  // Or we can use V8 objects to include the module and call the notify
+  // function directly on the object.
+  // Both methods are shown below.
+
+  // node::Evaluate("notifier = require('node-notifier');");
+  // node::Evaluate("notifier.notify('RSS Reader ready.');");
+
+  auto notifier = node::IncludeModule("node-notifier").ToLocalChecked();
+  auto isolate = node::internal::isolate();
+  node::Call(notifier, "notify", {v8::String::NewFromUtf8(isolate, "RSS Reader ready.")});
+
   // Register C++ methods to be used within JavaScript
   // The third parameter binds the C++ module to that name,
   // allowing the functions to be called like this: "cppQtGui.clearFeed(...)"
