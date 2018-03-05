@@ -137,6 +137,6 @@ if(WIN32)
     # Copy node.dll
     add_custom_command(TARGET ${target} POST_BUILD # Adds a post-build event to MyTest
     COMMAND ${CMAKE_COMMAND} -E copy_if_different  # which executes "cmake - E copy_if_different..."
-        ${CMAKE_SOURCE_DIR}/externals/node-v9.0.0/Release/node.dll      # <--this is in-file
+        ${CMAKE_SOURCE_DIR}/externals/node/Release/node.dll      # <--this is in-file
         $<TARGET_FILE_DIR:${target}>)                 # <--this is out-file path
 endif()
