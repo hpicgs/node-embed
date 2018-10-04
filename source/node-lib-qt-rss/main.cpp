@@ -17,7 +17,7 @@
 int main(int argc, char* argv[]) {
   // Locate the JavaScript file we want to load:
   const std::string js_file = "data/node-lib-qt-rss.js";
-  const std::string data_path = cpplocate::locatePath(js_file);
+  const std::string data_path = cpplocate::locatePath(js_file, "", NULL);
   if (data_path.empty()) {
     qWarning() << "Could not find data path.";
     return 1;

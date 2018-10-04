@@ -12,7 +12,7 @@ void cppFunctionExposedToJs(const v8::FunctionCallbackInfo<v8::Value>& args) {
 int main(int argc, char* argv[]) {
   // Locate the JavaScript file we want to load:
   const std::string js_file = "data/node-lib-cli.js";
-  const std::string data_path = cpplocate::locatePath(js_file);
+  const std::string data_path = cpplocate::locatePath(js_file, "", NULL);
   if (data_path.empty()) {
     std::cerr << "[C++] Could not find data path." << std::endl;
     return 1;
